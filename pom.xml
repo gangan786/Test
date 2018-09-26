@@ -22,6 +22,8 @@
 
     <build>
         <plugins>
+
+            <!--，只要你用了Maven并且想要使用java8的新特性，加上这个插件才能使用-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -31,6 +33,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

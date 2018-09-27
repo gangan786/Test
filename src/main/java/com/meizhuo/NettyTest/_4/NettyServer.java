@@ -5,6 +5,9 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
+import org.junit.Test;
 
 /**
  * @ProjectName: Test
@@ -29,16 +32,49 @@ public class NettyServer {
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         serverBootstrap
                 //绑定两大线程组，定型线程模型
-                .group(bossGroup,workerGroup)
+                .group(bossGroup, workerGroup)
                 //指定服务端的IO模型为NIO
                 .channel(NioServerSocketChannel.class)
+                .handler(new ChannelInitializer<NioSocketChannel>() {
+                    @Override
+                    protected void initChannel(NioSocketChannel channel) throws Exception {
+                        //服务端启动过程中的一些逻辑
+                    }
+                })
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
-                    protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
+                    protected void initChannel(NioSocketChannel channel) throws Exception {
                         //对每条连接进行数据读写，业务处理逻辑
+                        //处理新连接数据的读写处理逻辑
+
                     }
                 });
-        serverBootstrap.bind(8000);
+        bind(serverBootstrap, 1000);
 
     }
+
+    /**
+     * 查找可用端口并绑定
+     *
+     * @param serverBootstrap
+     * @param port
+     */
+    private static void bind(ServerBootstrap serverBootstrap, int port) {
+        serverBootstrap.bind(port).addListener(future -> {
+            if (future.isSuccess()) {
+                System.out.println("端口：" + port + "连接成功");
+            } else {
+                bind(serverBootstrap, port + 1);
+            }
+        });
+
+    }
+
+    @Test
+    public void test() {
+        int j = 0;
+        int i = ++j;
+        System.out.print(i);
+    }
+
 }

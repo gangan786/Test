@@ -49,7 +49,7 @@ public class NettyServer {
 
                     }
                 });
-        bind(serverBootstrap, 1000);
+        bind(serverBootstrap, 8000);
 
     }
 
@@ -70,11 +70,5 @@ public class NettyServer {
 
     }
 
-    @Test
-    public void test() {
-        int j = 0;
-        int i = ++j;
-        System.out.print(i);
-    }
 
 }

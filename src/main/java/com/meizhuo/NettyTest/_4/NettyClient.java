@@ -41,7 +41,7 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-
+                        ch.pipeline().addLast(new FirstClientHandle());
                     }
                 });
         connect(bootstrap, "127.0.0.1", 8000, MAX_RETRY);

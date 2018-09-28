@@ -35,18 +35,18 @@ public class NettyServer {
                 .group(bossGroup, workerGroup)
                 //指定服务端的IO模型为NIO
                 .channel(NioServerSocketChannel.class)
-                .handler(new ChannelInitializer<NioSocketChannel>() {
-                    @Override
-                    protected void initChannel(NioSocketChannel channel) throws Exception {
-                        //服务端启动过程中的一些逻辑
-                    }
-                })
+//                .handler(new ChannelInitializer<NioSocketChannel>() {
+//                    @Override
+//                    protected void initChannel(NioSocketChannel channel) throws Exception {
+//                        //服务端启动过程中的一些逻辑
+//                    }
+//                })
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel channel) throws Exception {
                         //对每条连接进行数据读写，业务处理逻辑
                         //处理新连接数据的读写处理逻辑
-
+                        channel.pipeline().addLast(new FirstServerHandle());
                     }
                 });
         bind(serverBootstrap, 8000);

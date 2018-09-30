@@ -1,12 +1,14 @@
 package com.meizhuo.NettyTest._7;
 
+import com.meizhuo.NettyTest._8.LoginResponsePacket;
+import com.meizhuo.NettyTest._9.MessageRequestPacket;
+import com.meizhuo.NettyTest._9.MessageResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.meizhuo.NettyTest._7.Command.LOGIN_REQUEST;
 
 /**
  * @ProjectName: Test
@@ -32,8 +34,10 @@ public class PacketCodeC {
 
     private PacketCodeC() {
         packetTypeMap = new HashMap<>();
-        packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
-//        packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
+        packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();

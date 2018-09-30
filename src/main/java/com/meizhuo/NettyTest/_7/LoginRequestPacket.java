@@ -24,9 +24,6 @@ public class LoginRequestPacket extends Packet {
 
     private String password;
 
-    private boolean success;
-
-    private String reason;
 
 
     @Override

@@ -1,7 +1,13 @@
 package com.meizhuo.NettyTest._4;
 
+import com.meizhuo.NettyTest._7.PacketCodeC;
 import com.meizhuo.NettyTest._8.ClientHandle;
+import com.meizhuo.NettyTest._9.LoginUtil;
+import com.meizhuo.NettyTest._9.MessageRequestPacket;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -10,6 +16,7 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.Date;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -54,6 +61,8 @@ public class NettyClient {
                 .connect(host, port)
                 .addListener(future -> {
                     if (future.isSuccess()) {
+                        Channel channel = ((ChannelFuture) future).channel();
+                        startConsoleThread(channel);
                         System.out.println(host + "/" + port + "连接成功");
                     } else if (retry == 0) {
                         System.out.println("重试次数已用完，放弃连接");
@@ -74,4 +83,23 @@ public class NettyClient {
 
     }
 
+    private static void startConsoleThread(Channel channel) {
+        new Thread(() -> {
+            while (!Thread.interrupted()){
+                //判断是否登录，记住对channel标记的时候，要在同一端进行标记和读取操作，
+                //比如你在Service端标记channel登录状态，Client端是获取不到你这个状态的
+                //所以要在同一端标记这样才能获取到
+                if (LoginUtil.hasLogin(channel)){
+                    System.out.println("请输入消息内容");
+                    Scanner sc = new Scanner(System.in);
+                    String line = sc.nextLine();
+
+                    MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
+                    messageRequestPacket.setMessage(line);
+                    ByteBuf buf = PacketCodeC.INSTANT.encode(channel.alloc(), messageRequestPacket);
+                    channel.writeAndFlush(buf);
+                }
+            }
+        }).start();
+    }
 }

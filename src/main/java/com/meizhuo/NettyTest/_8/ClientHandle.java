@@ -3,6 +3,8 @@ package com.meizhuo.NettyTest._8;
 import com.meizhuo.NettyTest._7.LoginRequestPacket;
 import com.meizhuo.NettyTest._7.Packet;
 import com.meizhuo.NettyTest._7.PacketCodeC;
+import com.meizhuo.NettyTest._9.LoginUtil;
+import com.meizhuo.NettyTest._9.MessageResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -46,13 +48,18 @@ public class ClientHandle extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf= (ByteBuf) msg;
         Packet packet = PacketCodeC.INSTANT.decode(byteBuf);
 
-        if (packet instanceof LoginRequestPacket){
-            LoginRequestPacket loginRequestPacket= (LoginRequestPacket) packet;
-            if (loginRequestPacket.isSuccess()){
-                System.out.println(loginRequestPacket.getUserName()+loginRequestPacket.getReason());
+        if (packet instanceof LoginResponsePacket){
+            LoginResponsePacket loginResponsePacket= (LoginResponsePacket) packet;
+            if (loginResponsePacket.isSuccess()){
+                //登录成功后标记channel记录登录成功
+                LoginUtil.markAsLogin(ctx.channel());
+                System.out.println(loginResponsePacket.getReason());
             }else {
-                System.out.println("登录失败"+loginRequestPacket.getReason());
+                System.out.println("登录失败"+loginResponsePacket.getReason());
             }
+        }else if (packet instanceof MessageResponsePacket){
+            MessageResponsePacket response= (MessageResponsePacket) packet;
+            System.out.println(new Date()+":  收到服务端的信息:  "+response.getMessage());
         }
     }
 }

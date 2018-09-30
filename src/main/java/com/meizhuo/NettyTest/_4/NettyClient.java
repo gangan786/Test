@@ -1,5 +1,6 @@
 package com.meizhuo.NettyTest._4;
 
+import com.meizhuo.NettyTest._8.ClientHandle;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -41,7 +42,7 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new FirstClientHandle());
+                        ch.pipeline().addLast(new ClientHandle());
                     }
                 });
         connect(bootstrap, "127.0.0.1", 8000, MAX_RETRY);

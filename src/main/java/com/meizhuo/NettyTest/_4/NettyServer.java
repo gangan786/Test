@@ -1,5 +1,6 @@
 package com.meizhuo.NettyTest._4;
 
+import com.meizhuo.NettyTest._8.ServiceHandle;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -46,7 +47,7 @@ public class NettyServer {
                     protected void initChannel(NioSocketChannel channel) throws Exception {
                         //对每条连接进行数据读写，业务处理逻辑
                         //处理新连接数据的读写处理逻辑
-                        channel.pipeline().addLast(new FirstServerHandle());
+                        channel.pipeline().addLast(new ServiceHandle());
                     }
                 });
         bind(serverBootstrap, 8000);

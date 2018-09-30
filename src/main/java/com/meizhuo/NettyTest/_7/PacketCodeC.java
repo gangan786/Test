@@ -24,12 +24,16 @@ import static com.meizhuo.NettyTest._7.Command.LOGIN_REQUEST;
 public class PacketCodeC {
 
     private static final int MAGIC_NUMBER = 0x12345678;
-    private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
-    private static final Map<Byte, Serializer> serializerMap;
+    public static final PacketCodeC INSTANT = new PacketCodeC();
 
-    static {
+
+    private final Map<Byte, Class<? extends Packet>> packetTypeMap;
+    private final Map<Byte, Serializer> serializerMap;
+
+    private PacketCodeC() {
         packetTypeMap = new HashMap<>();
-        packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
+        packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
+//        packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
@@ -38,25 +42,25 @@ public class PacketCodeC {
 
     /**
      * 对传输内容进行编码
-     *
+     * @param byteBufAllocator
      * @param packet
      * @return
      */
-    public ByteBuf encode(Packet packet) {
-        //创建ByteBuf对象
-        ByteBuf buf = ByteBufAllocator.DEFAULT.ioBuffer();
-        //序列化java对象
+    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet) {
+        // 1. 创建 ByteBuf 对象
+        ByteBuf byteBuf = byteBufAllocator.ioBuffer();
+        // 2. 序列化 java 对象
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
-        //实际编码过程
-        buf.writeInt(MAGIC_NUMBER);
-        buf.writeByte(packet.getVersion());
-        buf.writeByte(Serializer.DEFAULT.getSerializerAlgorithm());
-        buf.writeByte(packet.getCommand());
-        buf.writeInt(bytes.length);
-        buf.writeBytes(bytes);
+        // 3. 实际编码过程
+        byteBuf.writeInt(MAGIC_NUMBER);
+        byteBuf.writeByte(packet.getVersion());
+        byteBuf.writeByte(Serializer.DEFAULT.getSerializerAlgorithm());
+        byteBuf.writeByte(packet.getCommand());
+        byteBuf.writeInt(bytes.length);
+        byteBuf.writeBytes(bytes);
 
-        return buf;
+        return byteBuf;
     }
 
     /**

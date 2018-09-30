@@ -1,5 +1,7 @@
 package com.meizhuo.NettyTest._7;
 
+import lombok.Data;
+
 /**
  * @ProjectName: Test
  * @Package: com.meizhuo.NettyTest._7
@@ -13,13 +15,18 @@ package com.meizhuo.NettyTest._7;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2018</p>
  */
+@Data
 public class LoginRequestPacket extends Packet {
 
-    private Integer userId;
+    private String userId;
 
     private String userName;
 
     private String password;
+
+    private boolean success;
+
+    private String reason;
 
 
     @Override

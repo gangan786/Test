@@ -1,5 +1,9 @@
 package com.meizhuo.NettyTest._4;
 
+import com.meizhuo.NettyTest._11.LoginResponseHandle;
+import com.meizhuo.NettyTest._11.MessageResponHandle;
+import com.meizhuo.NettyTest._11.PacketDecode;
+import com.meizhuo.NettyTest._11.PacketEncoder;
 import com.meizhuo.NettyTest._7.PacketCodeC;
 import com.meizhuo.NettyTest._8.ClientHandle;
 import com.meizhuo.NettyTest._9.LoginUtil;
@@ -49,7 +53,10 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ClientHandle());
+                        ch.pipeline().addLast(new PacketDecode());
+                        ch.pipeline().addLast(new LoginResponseHandle());
+                        ch.pipeline().addLast(new MessageResponHandle());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
         connect(bootstrap, "127.0.0.1", 8000, MAX_RETRY);

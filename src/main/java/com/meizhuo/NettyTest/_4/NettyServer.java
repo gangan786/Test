@@ -5,6 +5,7 @@ import com.meizhuo.NettyTest._11.MessageRequestHandle;
 import com.meizhuo.NettyTest._11.PacketDecode;
 import com.meizhuo.NettyTest._11.PacketEncoder;
 import com.meizhuo.NettyTest._12.Spliter;
+import com.meizhuo.NettyTest._13.AuthHandler;
 import com.meizhuo.NettyTest._8.ServiceHandle;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -55,6 +56,7 @@ public class NettyServer {
                         channel.pipeline().addLast(new Spliter());
                         channel.pipeline().addLast(new PacketDecode());
                         channel.pipeline().addLast(new LoginRequestHandle());
+                        channel.pipeline().addLast(new AuthHandler());
                         channel.pipeline().addLast(new MessageRequestHandle());
                         channel.pipeline().addLast(new PacketEncoder());
                     }

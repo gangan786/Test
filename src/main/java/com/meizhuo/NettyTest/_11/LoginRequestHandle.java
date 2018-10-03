@@ -3,6 +3,7 @@ package com.meizhuo.NettyTest._11;
 import com.meizhuo.NettyTest._7.LoginRequestPacket;
 import com.meizhuo.NettyTest._7.PacketCodeC;
 import com.meizhuo.NettyTest._8.LoginResponsePacket;
+import com.meizhuo.NettyTest._9.LoginUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -32,9 +33,11 @@ public class LoginRequestHandle extends SimpleChannelInboundHandler<LoginRequest
             if (valid(msg)) {
                 loginResponsePacket.setReason("登录成功");
                 loginResponsePacket.setSuccess(true);
+                LoginUtil.markAsLogin(ctx.channel());
             } else {
                 loginResponsePacket.setReason("账号或者密码错误");
                 loginResponsePacket.setSuccess(false);
+                ctx.channel().close();
             }
 
             ctx.channel().writeAndFlush(loginResponsePacket);

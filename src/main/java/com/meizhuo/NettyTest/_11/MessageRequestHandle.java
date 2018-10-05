@@ -1,13 +1,12 @@
 package com.meizhuo.NettyTest._11;
 
-import com.meizhuo.NettyTest._7.PacketCodeC;
+import com.meizhuo.NettyTest._15.Session;
+import com.meizhuo.NettyTest._15.SessionUtil;
 import com.meizhuo.NettyTest._9.MessageRequestPacket;
 import com.meizhuo.NettyTest._9.MessageResponsePacket;
-import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
-import java.util.Date;
 
 /**
  * @ProjectName: Test
@@ -25,11 +24,32 @@ import java.util.Date;
 public class MessageRequestHandle extends SimpleChannelInboundHandler<MessageRequestPacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket msg) throws Exception {
-        //处理消息
-        System.out.println(new Date() + " :收到客户端信息:  " + msg.getMessage());
-        MessageResponsePacket responsePacket = new MessageResponsePacket();
-        responsePacket.setMessage("服务端回复【" + msg.getMessage() + "】");
+        //获取消息发送方的会话消息
+        Session session = SessionUtil.getSession(ctx.channel());
 
-        ctx.channel().writeAndFlush(responsePacket);
+        //构建应答
+        MessageResponsePacket responsePacket = new MessageResponsePacket();
+        responsePacket.setFromUserId(session.getUserId());
+        responsePacket.setFromUserName(session.getUserName());
+        responsePacket.setMessage(msg.getMessage());
+
+        //拿到消息接受放的channel
+        Channel toChannel = SessionUtil.getChannel(msg.getToUserId());
+
+        //将消息发送给接受方
+        if (toChannel != null && SessionUtil.hasLogin(toChannel)) {
+            toChannel.writeAndFlush(responsePacket);
+            responsePacket.setStateDes("发送成功");
+            responsePacket.setCode(200);
+            ctx.channel().writeAndFlush(responsePacket);
+        } else {
+            responsePacket.setCode(400);
+            responsePacket.setStateDes("[ " +
+                    msg.getToUserId() +
+                    " ] 该用户不存在或不在线" +
+                    "信息发送失败");
+            ctx.channel().writeAndFlush(responsePacket);
+        }
+
     }
 }

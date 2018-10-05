@@ -5,6 +5,8 @@ import com.meizhuo.NettyTest._11.MessageResponHandle;
 import com.meizhuo.NettyTest._11.PacketDecode;
 import com.meizhuo.NettyTest._11.PacketEncoder;
 import com.meizhuo.NettyTest._12.Spliter;
+import com.meizhuo.NettyTest._15.SessionUtil;
+import com.meizhuo.NettyTest._7.LoginRequestPacket;
 import com.meizhuo.NettyTest._7.PacketCodeC;
 import com.meizhuo.NettyTest._8.ClientHandle;
 import com.meizhuo.NettyTest._9.LoginUtil;
@@ -14,6 +16,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -50,6 +53,9 @@ public class NettyClient {
                 .group(workerGroup)
                 //指定IO类型为NIO
                 .channel(NioSocketChannel.class)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+                .option(ChannelOption.SO_KEEPALIVE, true)
+                .option(ChannelOption.TCP_NODELAY, true)
                 //处理逻辑
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
@@ -93,22 +99,38 @@ public class NettyClient {
     }
 
     private static void startConsoleThread(Channel channel) {
+
+        Scanner scanner = new Scanner(System.in);
+        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+
         new Thread(() -> {
             while (!Thread.interrupted()){
                 //判断是否登录，记住对channel标记的时候，要在同一端进行标记和读取操作，
                 //比如你在Service端标记channel登录状态，Client端是获取不到你这个状态的
                 //所以要在同一端标记这样才能获取到
-                if (LoginUtil.hasLogin(channel)){
-                    System.out.println("请输入消息内容");
-                    Scanner sc = new Scanner(System.in);
-                    String line = sc.nextLine();
+                if (!SessionUtil.hasLogin(channel)){
+                    System.out.println("请输入用户名登录：");
+                    String name=scanner.nextLine();
+                    loginRequestPacket.setUserName(name);
+                    loginRequestPacket.setPassword("gangan");
 
-                    MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
-                    messageRequestPacket.setMessage(line);
-                    ByteBuf buf = PacketCodeC.INSTANT.encode(channel.alloc(), messageRequestPacket);
-                    channel.writeAndFlush(buf);
+                    //发送登录数据包
+                    channel.writeAndFlush(loginRequestPacket);
+                    waitForLoginResponse();
+                }else {
+                    System.out.println("请分别输入用户id和信息内容（空格隔开）");
+                    String toUserId=scanner.next();
+                    String message=scanner.next();
+                    channel.writeAndFlush(new MessageRequestPacket(toUserId,message));
                 }
             }
         }).start();
+    }
+
+    private static void waitForLoginResponse() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
+        }
     }
 }

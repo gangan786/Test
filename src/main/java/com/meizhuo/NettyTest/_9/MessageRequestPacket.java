@@ -3,6 +3,7 @@ package com.meizhuo.NettyTest._9;
 import com.meizhuo.NettyTest._7.Command;
 import com.meizhuo.NettyTest._7.Packet;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @ProjectName: Test
@@ -18,9 +19,17 @@ import lombok.Data;
  * <p>Copyright: Copyright (c) 2018</p>
  */
 @Data
+@NoArgsConstructor
 public class MessageRequestPacket extends Packet {
 
+    private String toUserId;
+
     private String message;
+
+    public MessageRequestPacket(String toUserId, String message) {
+        this.toUserId = toUserId;
+        this.message = message;
+    }
 
     @Override
     public Byte getCommand() {

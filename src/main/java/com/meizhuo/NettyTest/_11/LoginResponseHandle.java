@@ -1,5 +1,7 @@
 package com.meizhuo.NettyTest._11;
 
+import com.meizhuo.NettyTest._15.Session;
+import com.meizhuo.NettyTest._15.SessionUtil;
 import com.meizhuo.NettyTest._7.LoginRequestPacket;
 import com.meizhuo.NettyTest._7.Packet;
 import com.meizhuo.NettyTest._7.PacketCodeC;
@@ -28,28 +30,19 @@ import java.util.UUID;
  */
 public class LoginResponseHandle extends SimpleChannelInboundHandler<LoginResponsePacket> {
 
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(new Date()+":  客户端开始登陆");
 
-        //创建登陆对象
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-        loginRequestPacket.setUserId(UUID.randomUUID().toString());
-        loginRequestPacket.setUserName("Gangan");
-        loginRequestPacket.setPassword("gangan");
-
-        //写数据
-        ctx.channel().writeAndFlush(loginRequestPacket);
-    }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, LoginResponsePacket msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, LoginResponsePacket loginResponsePacket) throws Exception {
 
-        if (msg.isSuccess()) {
-            System.out.println(new Date() + ": 客户端登录成功");
-            LoginUtil.markAsLogin(ctx.channel());
+        String userId = loginResponsePacket.getUserId();
+        String userName = loginResponsePacket.getUserName();
+
+        if (loginResponsePacket.isSuccess()) {
+            System.out.println("[" + userName + "]登录成功，userId 为: " + loginResponsePacket.getUserId());
+            SessionUtil.bindSession(new Session(userId, userName), ctx.channel());
         } else {
-            System.out.println(new Date() + ": 客户端登录失败，原因：" + msg.getReason());
+            System.out.println("[" + userName + "]登录失败，原因：" + loginResponsePacket.getReason());
         }
     }
 

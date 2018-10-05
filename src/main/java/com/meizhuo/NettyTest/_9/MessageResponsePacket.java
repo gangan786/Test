@@ -22,6 +22,14 @@ public class MessageResponsePacket extends Packet {
 
     private String message;
 
+    private String fromUserId;
+
+    private String fromUserName;
+
+    private String stateDes;
+
+    private int code;
+
     @Override
     public Byte getCommand() {
         return Command.MESSAGE_RESPONSE;

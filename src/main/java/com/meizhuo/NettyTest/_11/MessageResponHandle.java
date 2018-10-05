@@ -21,8 +21,22 @@ import java.util.Date;
  * <p>Copyright: Copyright (c) 2018</p>
  */
 public class MessageResponHandle extends SimpleChannelInboundHandler<MessageResponsePacket> {
+
+    private static final int MESSAGE_SUCCESS_CODE = 200;
+
+    private static final int MESSAGE_FAIL_CODE = 400;
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageResponsePacket msg) throws Exception {
-        System.out.println(new Date() + ":  收到服务端的信息:  " + msg.getMessage());
+        if (msg.getCode() == MESSAGE_SUCCESS_CODE) {
+            String fromUserId = msg.getFromUserId();
+            String fromUserName = msg.getFromUserName();
+            System.out.println(fromUserId + ":" + fromUserName + " -> " + msg
+                    .getMessage());
+        } else if (msg.getCode() == MESSAGE_FAIL_CODE) {
+            System.out.println(msg.getStateDes());
+        }
+
     }
 }

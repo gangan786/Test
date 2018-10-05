@@ -1,5 +1,7 @@
 package com.meizhuo.NettyTest._11;
 
+import com.meizhuo.NettyTest._15.Session;
+import com.meizhuo.NettyTest._15.SessionUtil;
 import com.meizhuo.NettyTest._7.LoginRequestPacket;
 import com.meizhuo.NettyTest._7.PacketCodeC;
 import com.meizhuo.NettyTest._8.LoginResponsePacket;
@@ -7,6 +9,8 @@ import com.meizhuo.NettyTest._9.LoginUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
+import java.util.UUID;
 
 /**
  * @ProjectName: Test
@@ -26,26 +30,44 @@ public class LoginRequestHandle extends SimpleChannelInboundHandler<LoginRequest
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket msg) throws Exception {
 
 
-            LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
-            loginResponsePacket.setVersion(msg.getVersion());
+        LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
+        loginResponsePacket.setVersion(msg.getVersion());
 
-            //登录校验
-            if (valid(msg)) {
-                loginResponsePacket.setReason("登录成功");
-                loginResponsePacket.setSuccess(true);
-                LoginUtil.markAsLogin(ctx.channel());
-            } else {
-                loginResponsePacket.setReason("账号或者密码错误");
-                loginResponsePacket.setSuccess(false);
-                ctx.channel().close();
-            }
+        //登录校验
+        if (valid(msg)) {
+            loginResponsePacket.setReason("登录成功");
+            loginResponsePacket.setSuccess(true);
+            //标记登录状态，是是否移除AuthHandle的依据
+            LoginUtil.markAsLogin(ctx.channel());
+            String userId=randomUserId();
+            loginResponsePacket.setUserId(userId);
+            loginResponsePacket.setUserName(msg.getUserName());
 
-            ctx.channel().writeAndFlush(loginResponsePacket);
+            //绑定channel
+            SessionUtil.bindSession(new Session(userId,msg.getUserName()),ctx.channel());
+            System.out.println("[ "+msg.getUserName()+" ]  登录成功");
+
+        } else {
+            loginResponsePacket.setReason("账号或者密码错误");
+            loginResponsePacket.setSuccess(false);
+        }
+
+        ctx.channel().writeAndFlush(loginResponsePacket);
 
     }
 
+    private String randomUserId() {
+        return UUID.randomUUID().toString().split("-")[0];
+    }
+
     private boolean valid(LoginRequestPacket msg) {
-        return "Gangan".equals(msg.getUserName())
+        return ("Gangan".equals(msg.getUserName()) || "Dong".equals(msg.getUserName()))
                 && "gangan".equals(msg.getPassword());
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        //取消绑定
+        SessionUtil.unBindSession(ctx.channel());
     }
 }

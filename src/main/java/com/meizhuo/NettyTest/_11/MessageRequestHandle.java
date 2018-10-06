@@ -38,10 +38,10 @@ public class MessageRequestHandle extends SimpleChannelInboundHandler<MessageReq
 
         //将消息发送给接受方
         if (toChannel != null && SessionUtil.hasLogin(toChannel)) {
-            toChannel.writeAndFlush(responsePacket);
             responsePacket.setStateDes("发送成功");
-            responsePacket.setCode(200);
             ctx.channel().writeAndFlush(responsePacket);
+            responsePacket.setCode(200);
+            toChannel.writeAndFlush(responsePacket);
         } else {
             responsePacket.setCode(400);
             responsePacket.setStateDes("[ " +

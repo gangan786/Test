@@ -5,6 +5,7 @@ import com.meizhuo.NettyTest._11.MessageResponHandle;
 import com.meizhuo.NettyTest._11.PacketDecode;
 import com.meizhuo.NettyTest._11.PacketEncoder;
 import com.meizhuo.NettyTest._12.Spliter;
+import com.meizhuo.NettyTest._15.ResultResponseHandle;
 import com.meizhuo.NettyTest._15.SessionUtil;
 import com.meizhuo.NettyTest._7.LoginRequestPacket;
 import com.meizhuo.NettyTest._7.PacketCodeC;
@@ -64,6 +65,7 @@ public class NettyClient {
                         ch.pipeline().addLast(new PacketDecode());
                         ch.pipeline().addLast(new LoginResponseHandle());
                         ch.pipeline().addLast(new MessageResponHandle());
+                        ch.pipeline().addLast(new ResultResponseHandle());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });

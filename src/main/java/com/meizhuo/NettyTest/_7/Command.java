@@ -19,5 +19,5 @@ public interface Command {
     Byte MESSAGE_REQUEST = 3;
     Byte MESSAGE_RESPONSE = 4;
 
-    Byte RESULT_MESSAGE_FAIL=5;
+    Byte RESULT_MESSAGE_STATE=5;
 }

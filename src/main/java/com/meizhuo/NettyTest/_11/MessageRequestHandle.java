@@ -1,5 +1,6 @@
 package com.meizhuo.NettyTest._11;
 
+import com.meizhuo.NettyTest._15.ResponsePacket;
 import com.meizhuo.NettyTest._15.Session;
 import com.meizhuo.NettyTest._15.SessionUtil;
 import com.meizhuo.NettyTest._9.MessageRequestPacket;
@@ -33,22 +34,27 @@ public class MessageRequestHandle extends SimpleChannelInboundHandler<MessageReq
         responsePacket.setFromUserName(session.getUserName());
         responsePacket.setMessage(msg.getMessage());
 
+        //构建发送结果应答
+        ResponsePacket resultPacket = new ResponsePacket();
+
         //拿到消息接受放的channel
         Channel toChannel = SessionUtil.getChannel(msg.getToUserId());
 
         //将消息发送给接受方
         if (toChannel != null && SessionUtil.hasLogin(toChannel)) {
+            //向接受方发送
             toChannel.writeAndFlush(responsePacket);
-            responsePacket.setStateDes("发送成功");
-            responsePacket.setCode(200);
-            ctx.channel().writeAndFlush(responsePacket);
+            //返回发送结果
+            resultPacket.setStateDes("发送成功");
+            resultPacket.setCode(200);
+            ctx.channel().writeAndFlush(resultPacket);
         } else {
-            responsePacket.setCode(400);
-            responsePacket.setStateDes("[ " +
+            resultPacket.setCode(400);
+            resultPacket.setStateDes("[ " +
                     msg.getToUserId() +
                     " ] 该用户不存在或不在线" +
                     "信息发送失败");
-            ctx.channel().writeAndFlush(responsePacket);
+            ctx.channel().writeAndFlush(resultPacket);
         }
 
     }

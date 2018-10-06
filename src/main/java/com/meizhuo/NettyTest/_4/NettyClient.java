@@ -6,6 +6,11 @@ import com.meizhuo.NettyTest._11.PacketDecode;
 import com.meizhuo.NettyTest._11.PacketEncoder;
 import com.meizhuo.NettyTest._12.Spliter;
 import com.meizhuo.NettyTest._15.SessionUtil;
+import com.meizhuo.NettyTest._16.Handle.CreateGroupResponseHandle;
+import com.meizhuo.NettyTest._16.Handle.LogoutResponseHandle;
+import com.meizhuo.NettyTest._16.Packet.LogoutResponsePacket;
+import com.meizhuo.NettyTest._16.console.ConsloeCommandManager;
+import com.meizhuo.NettyTest._16.console.LoginConsoleCommand;
 import com.meizhuo.NettyTest._7.LoginRequestPacket;
 import com.meizhuo.NettyTest._7.PacketCodeC;
 import com.meizhuo.NettyTest._8.ClientHandle;
@@ -63,7 +68,9 @@ public class NettyClient {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecode());
                         ch.pipeline().addLast(new LoginResponseHandle());
+                        ch.pipeline().addLast(new LogoutResponseHandle());
                         ch.pipeline().addLast(new MessageResponHandle());
+                        ch.pipeline().addLast(new CreateGroupResponseHandle());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
@@ -77,7 +84,7 @@ public class NettyClient {
                 .addListener(future -> {
                     if (future.isSuccess()) {
                         Channel channel = ((ChannelFuture) future).channel();
-                        startConsoleThread(channel);
+                        startConsoleManagerThread(channel);
                         System.out.println(host + "/" + port + "连接成功");
                     } else if (retry == 0) {
                         System.out.println("重试次数已用完，放弃连接");
@@ -104,24 +111,40 @@ public class NettyClient {
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
 
         new Thread(() -> {
-            while (!Thread.interrupted()){
+            while (!Thread.interrupted()) {
                 //判断是否登录，记住对channel标记的时候，要在同一端进行标记和读取操作，
                 //比如你在Service端标记channel登录状态，Client端是获取不到你这个状态的
                 //所以要在同一端标记这样才能获取到
-                if (!SessionUtil.hasLogin(channel)){
+                if (!SessionUtil.hasLogin(channel)) {
                     System.out.println("请输入用户名登录：");
-                    String name=scanner.nextLine();
+                    String name = scanner.nextLine();
                     loginRequestPacket.setUserName(name);
                     loginRequestPacket.setPassword("gangan");
 
                     //发送登录数据包
                     channel.writeAndFlush(loginRequestPacket);
                     waitForLoginResponse();
-                }else {
+                } else {
                     System.out.println("请分别输入用户id和信息内容（空格隔开）");
-                    String toUserId=scanner.next();
-                    String message=scanner.next();
-                    channel.writeAndFlush(new MessageRequestPacket(toUserId,message));
+                    String toUserId = scanner.next();
+                    String message = scanner.next();
+                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
+                }
+            }
+        }).start();
+    }
+
+    private static void startConsoleManagerThread(Channel channel) {
+        ConsloeCommandManager consloeCommandManager = new ConsloeCommandManager();
+        LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
+
+        Scanner scanner = new Scanner(System.in);
+        new Thread(() -> {
+            while (!Thread.interrupted()){
+                if (!SessionUtil.hasLogin(channel)) {
+                    loginConsoleCommand.exec(scanner, channel);
+                } else {
+                    consloeCommandManager.exec(scanner,channel);
                 }
             }
         }).start();

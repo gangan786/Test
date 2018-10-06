@@ -61,8 +61,10 @@ public class LoginRequestHandle extends SimpleChannelInboundHandler<LoginRequest
     }
 
     private boolean valid(LoginRequestPacket msg) {
-        return ("Gangan".equals(msg.getUserName()) || "Dong".equals(msg.getUserName()))
-                && "gangan".equals(msg.getPassword());
+        return (("Gangan".equals(msg.getUserName())
+                || "Dong".equals(msg.getUserName())
+                ||"Shi".equals(msg.getUserName()))
+                && "gangan".equals(msg.getPassword()));
     }
 
     @Override

@@ -38,9 +38,12 @@ public class MessageRequestHandle extends SimpleChannelInboundHandler<MessageReq
 
         //将消息发送给接受方
         if (toChannel != null && SessionUtil.hasLogin(toChannel)) {
+            //以下代码的顺序是有讲究的
             responsePacket.setStateDes("发送成功");
+            //这个回写的状态码是0
             ctx.channel().writeAndFlush(responsePacket);
             responsePacket.setCode(200);
+            //这个回写的状态码是200
             toChannel.writeAndFlush(responsePacket);
         } else {
             responsePacket.setCode(400);

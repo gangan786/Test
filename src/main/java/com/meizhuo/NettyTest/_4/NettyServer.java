@@ -6,8 +6,11 @@ import com.meizhuo.NettyTest._11.PacketDecode;
 import com.meizhuo.NettyTest._11.PacketEncoder;
 import com.meizhuo.NettyTest._12.Spliter;
 import com.meizhuo.NettyTest._13.AuthHandler;
+import com.meizhuo.NettyTest._16.Handle.CreateGroupRequestHandle;
+import com.meizhuo.NettyTest._16.Handle.LogoutRequestHandle;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -38,12 +41,9 @@ public class NettyServer {
                 .group(bossGroup, workerGroup)
                 //指定服务端的IO模型为NIO
                 .channel(NioServerSocketChannel.class)
-//                .handler(new ChannelInitializer<NioSocketChannel>() {
-//                    @Override
-//                    protected void initChannel(NioSocketChannel channel) throws Exception {
-//                        //服务端启动过程中的一些逻辑
-//                    }
-//                })
+                .option(ChannelOption.SO_BACKLOG, 1024)
+                .childOption(ChannelOption.SO_KEEPALIVE, true)
+                .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel channel) throws Exception {
@@ -54,6 +54,8 @@ public class NettyServer {
                         channel.pipeline().addLast(new LoginRequestHandle());
                         channel.pipeline().addLast(new AuthHandler());
                         channel.pipeline().addLast(new MessageRequestHandle());
+                        channel.pipeline().addLast(new CreateGroupRequestHandle());
+                        channel.pipeline().addLast(new LogoutRequestHandle());
                         channel.pipeline().addLast(new PacketEncoder());
                     }
                 });

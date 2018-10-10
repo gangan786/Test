@@ -45,11 +45,13 @@ public class PacketCodeC {
         packetTypeMap.put(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
         packetTypeMap.put(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
         packetTypeMap.put(Command.JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
-        packetTypeMap.put(Command.JOIN_GROUP_RESPONSE,JoinGroupResponsePacket.class);
-        packetTypeMap.put(Command.QUIT_GROUP_REQUEST,QuitGroupRequestPacket.class);
-        packetTypeMap.put(Command.QUIT_GROUP_RESPONSE,QuitGroupResponsePacket.class);
-        packetTypeMap.put(Command.LIST_GROUP_MEMBERS_REQUEST,ListGroupMembersRequestPacket.class);
-        packetTypeMap.put(Command.LIST_GROUP_MEMBERS_RESPONSE,ListGroupMembersResponsePacket.class);
+        packetTypeMap.put(Command.JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
+        packetTypeMap.put(Command.QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class);
+        packetTypeMap.put(Command.QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
+        packetTypeMap.put(Command.LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
+        packetTypeMap.put(Command.LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
+        packetTypeMap.put(Command.GROUP_MESSAGE_REQUEST, GroupMessageRequstPacket.class);
+        packetTypeMap.put(Command.GROUP_MESSAGE_RESPONSE, GroupMessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
@@ -58,6 +60,7 @@ public class PacketCodeC {
 
     /**
      * 对传输内容进行编码
+     *
      * @param byteBufAllocator
      * @param packet
      * @return
@@ -81,6 +84,7 @@ public class PacketCodeC {
 
     /**
      * 将packet序列化后转成二进制装入byteBuf
+     *
      * @param byteBuf
      * @param packet
      * @return

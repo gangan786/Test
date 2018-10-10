@@ -58,6 +58,7 @@ public class NettyServer {
                         channel.pipeline().addLast(new JoinGroupRequestHandle());
                         channel.pipeline().addLast(new QuitGroupRequestHandle());
                         channel.pipeline().addLast(new ListGroupMembersRequestHandle());
+                        channel.pipeline().addLast(new GroupMessageRequestHandle());
                         channel.pipeline().addLast(new PacketEncoder());
                     }
                 });

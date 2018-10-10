@@ -16,7 +16,7 @@ package com.meizhuo.NettyTest._7;
 public interface Command {
     Byte LOGIN_REQUEST = 1;
 
-    Byte LOGIN_RESPONSE=2;
+    Byte LOGIN_RESPONSE = 2;
 
     Byte MESSAGE_REQUEST = 3;
 
@@ -42,5 +42,8 @@ public interface Command {
 
     Byte QUIT_GROUP_RESPONSE = 14;
 
+    Byte GROUP_MESSAGE_REQUEST = 15;
+
+    Byte GROUP_MESSAGE_RESPONSE = 16;
 
 }

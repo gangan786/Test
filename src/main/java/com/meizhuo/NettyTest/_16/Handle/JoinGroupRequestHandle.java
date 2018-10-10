@@ -3,6 +3,7 @@ package com.meizhuo.NettyTest._16.Handle;
 import com.meizhuo.NettyTest._15.SessionUtil;
 import com.meizhuo.NettyTest._16.Packet.JoinGroupRequestPacket;
 import com.meizhuo.NettyTest._16.Packet.JoinGroupResponsePacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -20,7 +21,15 @@ import io.netty.channel.group.ChannelGroup;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2018</p>
  */
+@ChannelHandler.Sharable
 public class JoinGroupRequestHandle extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
+
+    public static final JoinGroupRequestHandle INSTANCE=new JoinGroupRequestHandle();
+
+    private JoinGroupRequestHandle(){
+
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupRequestPacket msg) throws Exception {
         //获取对应的channelGroup，然后将当前用户的channel添加进去

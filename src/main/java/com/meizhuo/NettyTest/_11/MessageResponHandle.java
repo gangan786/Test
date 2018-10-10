@@ -1,6 +1,7 @@
 package com.meizhuo.NettyTest._11;
 
 import com.meizhuo.NettyTest._9.MessageResponsePacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -20,7 +21,14 @@ import java.util.Date;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2018</p>
  */
+@ChannelHandler.Sharable
 public class MessageResponHandle extends SimpleChannelInboundHandler<MessageResponsePacket> {
+
+    public static final MessageResponHandle INSTANCE = new MessageResponHandle();
+
+    private MessageResponHandle() {
+
+    }
 
     private static final int MESSAGE_SUCCESS_CODE = 200;
 

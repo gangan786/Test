@@ -1,6 +1,7 @@
 package com.meizhuo.NettyTest._16.Handle;
 
 import com.meizhuo.NettyTest._16.Packet.ListGroupMembersResponsePacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -17,7 +18,15 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2018</p>
  */
+@ChannelHandler.Sharable
 public class ListGroupMembersResponseHandle extends SimpleChannelInboundHandler<ListGroupMembersResponsePacket> {
+
+    public static final ListGroupMembersResponseHandle INSTANCE=new ListGroupMembersResponseHandle();
+
+    private ListGroupMembersResponseHandle(){
+
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ListGroupMembersResponsePacket msg) throws Exception {
         String groupId = msg.getGroup();

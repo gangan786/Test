@@ -7,6 +7,7 @@ import com.meizhuo.NettyTest._7.PacketCodeC;
 import com.meizhuo.NettyTest._8.LoginResponsePacket;
 import com.meizhuo.NettyTest._9.LoginUtil;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -25,10 +26,17 @@ import java.util.UUID;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2018</p>
  */
+@ChannelHandler.Sharable
 public class LoginRequestHandle extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+    public static final LoginRequestHandle INSTANCE=new LoginRequestHandle();
+
+    private LoginRequestHandle(){
+
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket msg) throws Exception {
-
 
         LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
         loginResponsePacket.setVersion(msg.getVersion());

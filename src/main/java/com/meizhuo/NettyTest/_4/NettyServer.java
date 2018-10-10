@@ -49,17 +49,11 @@ public class NettyServer {
                         //对每条连接进行数据读写，业务处理逻辑
                         //处理新连接数据的读写处理逻辑
                         channel.pipeline().addLast(new Spliter());
-                        channel.pipeline().addLast(new PacketDecode());
-                        channel.pipeline().addLast(new LoginRequestHandle());
-                        channel.pipeline().addLast(new AuthHandler());
-                        channel.pipeline().addLast(new MessageRequestHandle());
-                        channel.pipeline().addLast(new CreateGroupRequestHandle());
-                        channel.pipeline().addLast(new LogoutRequestHandle());
-                        channel.pipeline().addLast(new JoinGroupRequestHandle());
-                        channel.pipeline().addLast(new QuitGroupRequestHandle());
-                        channel.pipeline().addLast(new ListGroupMembersRequestHandle());
-                        channel.pipeline().addLast(new GroupMessageRequestHandle());
-                        channel.pipeline().addLast(new PacketEncoder());
+                        channel.pipeline().addLast(PacketCodecHandle.INSTANCE);
+                        channel.pipeline().addLast(LoginRequestHandle.INSTANCE);
+                        channel.pipeline().addLast(AuthHandler.INSTANCE);
+                        channel.pipeline().addLast(AIMHandle.INSTANCE);
+
                     }
                 });
         bind(serverBootstrap, 8000);

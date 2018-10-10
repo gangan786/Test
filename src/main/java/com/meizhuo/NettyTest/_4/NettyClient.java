@@ -66,16 +66,16 @@ public class NettyClient {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline().addLast(new Spliter());
-                        ch.pipeline().addLast(new PacketDecode());
-                        ch.pipeline().addLast(new LoginResponseHandle());
-                        ch.pipeline().addLast(new LogoutResponseHandle());
-                        ch.pipeline().addLast(new MessageResponHandle());
-                        ch.pipeline().addLast(new CreateGroupResponseHandle());
-                        ch.pipeline().addLast(new JoinGroupResponseHandle());
-                        ch.pipeline().addLast(new QuitGroupResponseHandle());
-                        ch.pipeline().addLast(new ListGroupMembersResponseHandle());
-                        ch.pipeline().addLast(new GroupMessageResponseHandle());
-                        ch.pipeline().addLast(new PacketEncoder());
+                        ch.pipeline().addLast(PacketCodecHandle.INSTANCE);
+                        ch.pipeline().addLast(LoginResponseHandle.INSTANCE);
+                        ch.pipeline().addLast(LogoutResponseHandle.INSTANCE);
+                        ch.pipeline().addLast( MessageResponHandle.INSTANCE);
+                        ch.pipeline().addLast( CreateGroupResponseHandle.INSTANCE);
+                        ch.pipeline().addLast( JoinGroupResponseHandle.INSTANCE);
+                        ch.pipeline().addLast( QuitGroupResponseHandle.INSTANCE);
+                        ch.pipeline().addLast( ListGroupMembersResponseHandle.INSTANCE);
+                        ch.pipeline().addLast( GroupMessageResponseHandle.INSTANCE);
+
                     }
                 });
         connect(bootstrap, "127.0.0.1", 8000, MAX_RETRY);

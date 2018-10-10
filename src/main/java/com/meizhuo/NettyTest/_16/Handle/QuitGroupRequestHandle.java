@@ -3,6 +3,7 @@ package com.meizhuo.NettyTest._16.Handle;
 import com.meizhuo.NettyTest._15.SessionUtil;
 import com.meizhuo.NettyTest._16.Packet.QuitGroupRequestPacket;
 import com.meizhuo.NettyTest._16.Packet.QuitGroupResponsePacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -20,7 +21,15 @@ import io.netty.channel.group.ChannelGroup;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2018</p>
  */
+@ChannelHandler.Sharable
 public class QuitGroupRequestHandle extends SimpleChannelInboundHandler<QuitGroupRequestPacket> {
+
+    public static final QuitGroupRequestHandle INSTANCE=new QuitGroupRequestHandle();
+
+    private QuitGroupRequestHandle(){
+
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, QuitGroupRequestPacket msg) throws Exception {
         String groupId = msg.getGroupId();

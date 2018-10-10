@@ -2,6 +2,7 @@ package com.meizhuo.NettyTest._16.Handle;
 
 import com.meizhuo.NettyTest._15.Session;
 import com.meizhuo.NettyTest._16.Packet.GroupMessageResponsePacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -18,7 +19,15 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2018</p>
  */
+@ChannelHandler.Sharable
 public class GroupMessageResponseHandle extends SimpleChannelInboundHandler<GroupMessageResponsePacket> {
+
+    public static final GroupMessageResponseHandle INSTANCE=new GroupMessageResponseHandle();
+
+    private GroupMessageResponseHandle(){
+
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, GroupMessageResponsePacket responsePacket) throws Exception {
         String fromGroupId = responsePacket.getFromGroupId();

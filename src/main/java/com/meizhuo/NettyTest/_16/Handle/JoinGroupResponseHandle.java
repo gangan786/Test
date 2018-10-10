@@ -1,6 +1,7 @@
 package com.meizhuo.NettyTest._16.Handle;
 
 import com.meizhuo.NettyTest._16.Packet.JoinGroupResponsePacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -17,7 +18,15 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2018</p>
  */
+@ChannelHandler.Sharable
 public class JoinGroupResponseHandle extends SimpleChannelInboundHandler<JoinGroupResponsePacket> {
+
+    public static final JoinGroupResponseHandle INSTANCE=new JoinGroupResponseHandle();
+
+    private JoinGroupResponseHandle(){
+
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupResponsePacket msg) throws Exception {
             System.out.println("加入群聊[ "+msg.getGroupId()+" ] "+msg.getReason());

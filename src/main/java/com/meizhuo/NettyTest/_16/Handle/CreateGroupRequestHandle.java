@@ -6,6 +6,7 @@ import com.meizhuo.NettyTest._16.Packet.CreateGroupRequestPacket;
 import com.meizhuo.NettyTest._16.Packet.CreateGroupResponsePacket;
 import com.meizhuo.NettyTest._16.Util.IDUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -27,7 +28,15 @@ import java.util.UUID;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2018</p>
  */
+@ChannelHandler.Sharable
 public class CreateGroupRequestHandle extends SimpleChannelInboundHandler<CreateGroupRequestPacket> {
+
+    public static final CreateGroupRequestHandle INSTANCE = new CreateGroupRequestHandle();
+
+    private CreateGroupRequestHandle() {
+
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, CreateGroupRequestPacket msg) throws Exception {
         List<String> userIdList = msg.getUserIdList();
@@ -57,9 +66,9 @@ public class CreateGroupRequestHandle extends SimpleChannelInboundHandler<Create
         channelGroup.writeAndFlush(createGroupResponsePacket);
 
         System.out.println("群创建成功，id为[ " + groupId + " ]");
-        System.out.println("群里面有："+createGroupResponsePacket.getUserNameList());
+        System.out.println("群里面有：" + createGroupResponsePacket.getUserNameList());
 
         //保存群组相关信息
-        SessionUtil.bindChannelGroup(groupId,channelGroup);
+        SessionUtil.bindChannelGroup(groupId, channelGroup);
     }
 }

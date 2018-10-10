@@ -5,6 +5,7 @@ import com.meizhuo.NettyTest._15.SessionUtil;
 import com.meizhuo.NettyTest._16.Packet.ListGroupMembersRequestPacket;
 import com.meizhuo.NettyTest._16.Packet.ListGroupMembersResponsePacket;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -24,7 +25,15 @@ import java.util.ArrayList;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2018</p>
  */
+@ChannelHandler.Sharable
 public class ListGroupMembersRequestHandle extends SimpleChannelInboundHandler<ListGroupMembersRequestPacket> {
+
+    public static final ListGroupMembersRequestHandle INSTANCE=new ListGroupMembersRequestHandle();
+
+    private ListGroupMembersRequestHandle(){
+
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ListGroupMembersRequestPacket msg) throws Exception {
         String groupId = msg.getGroupId();

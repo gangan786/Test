@@ -28,6 +28,9 @@ public class ConsloeCommandManager implements ConsoleCommand {
         consoleCommandMap.put("sendToUser", new SendToUserConsloeCommand());
         consoleCommandMap.put("logout", new LogoutConsoleCommand());
         consoleCommandMap.put("createGroup", new CreateGroupConsoleCommand());
+        consoleCommandMap.put("joinGroup",new JoinGroupConsoleCommand());
+        consoleCommandMap.put("quitGroup",new QuitGroupConsoleCommand());
+        consoleCommandMap.put("listGroup",new ListGroupMembersConsoleCommand());
 
     }
 

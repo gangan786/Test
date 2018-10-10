@@ -6,8 +6,7 @@ import com.meizhuo.NettyTest._11.PacketDecode;
 import com.meizhuo.NettyTest._11.PacketEncoder;
 import com.meizhuo.NettyTest._12.Spliter;
 import com.meizhuo.NettyTest._13.AuthHandler;
-import com.meizhuo.NettyTest._16.Handle.CreateGroupRequestHandle;
-import com.meizhuo.NettyTest._16.Handle.LogoutRequestHandle;
+import com.meizhuo.NettyTest._16.Handle.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -56,6 +55,9 @@ public class NettyServer {
                         channel.pipeline().addLast(new MessageRequestHandle());
                         channel.pipeline().addLast(new CreateGroupRequestHandle());
                         channel.pipeline().addLast(new LogoutRequestHandle());
+                        channel.pipeline().addLast(new JoinGroupRequestHandle());
+                        channel.pipeline().addLast(new QuitGroupRequestHandle());
+                        channel.pipeline().addLast(new ListGroupMembersRequestHandle());
                         channel.pipeline().addLast(new PacketEncoder());
                     }
                 });

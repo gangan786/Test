@@ -1,9 +1,6 @@
 package com.meizhuo.NettyTest._7;
 
-import com.meizhuo.NettyTest._16.Packet.CreateGroupRequestPacket;
-import com.meizhuo.NettyTest._16.Packet.CreateGroupResponsePacket;
-import com.meizhuo.NettyTest._16.Packet.LogoutRequestPacket;
-import com.meizhuo.NettyTest._16.Packet.LogoutResponsePacket;
+import com.meizhuo.NettyTest._16.Packet.*;
 import com.meizhuo.NettyTest._8.LoginResponsePacket;
 import com.meizhuo.NettyTest._9.MessageRequestPacket;
 import com.meizhuo.NettyTest._9.MessageResponsePacket;
@@ -47,6 +44,12 @@ public class PacketCodeC {
         packetTypeMap.put(Command.LOGOUT_RESPONSE, LogoutResponsePacket.class);
         packetTypeMap.put(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
         packetTypeMap.put(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        packetTypeMap.put(Command.JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
+        packetTypeMap.put(Command.JOIN_GROUP_RESPONSE,JoinGroupResponsePacket.class);
+        packetTypeMap.put(Command.QUIT_GROUP_REQUEST,QuitGroupRequestPacket.class);
+        packetTypeMap.put(Command.QUIT_GROUP_RESPONSE,QuitGroupResponsePacket.class);
+        packetTypeMap.put(Command.LIST_GROUP_MEMBERS_REQUEST,ListGroupMembersRequestPacket.class);
+        packetTypeMap.put(Command.LIST_GROUP_MEMBERS_RESPONSE,ListGroupMembersResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();

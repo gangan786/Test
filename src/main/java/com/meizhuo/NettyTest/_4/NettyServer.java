@@ -1,12 +1,12 @@
 package com.meizhuo.NettyTest._4;
 
 import com.meizhuo.NettyTest._11.LoginRequestHandle;
-import com.meizhuo.NettyTest._11.MessageRequestHandle;
-import com.meizhuo.NettyTest._11.PacketDecode;
-import com.meizhuo.NettyTest._11.PacketEncoder;
 import com.meizhuo.NettyTest._12.Spliter;
 import com.meizhuo.NettyTest._13.AuthHandler;
 import com.meizhuo.NettyTest._16.Handle.*;
+import com.meizhuo.NettyTest._19.HeartBeatRequestHandle;
+import com.meizhuo.NettyTest._19.HeartBeatRequestPacket;
+import com.meizhuo.NettyTest._19.IMIdleStateHandle;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -48,9 +48,11 @@ public class NettyServer {
                     protected void initChannel(NioSocketChannel channel) throws Exception {
                         //对每条连接进行数据读写，业务处理逻辑
                         //处理新连接数据的读写处理逻辑
+                        channel.pipeline().addLast(new IMIdleStateHandle());
                         channel.pipeline().addLast(new Spliter());
                         channel.pipeline().addLast(PacketCodecHandle.INSTANCE);
                         channel.pipeline().addLast(LoginRequestHandle.INSTANCE);
+                        channel.pipeline().addLast(HeartBeatRequestHandle.INSTANCE);
                         channel.pipeline().addLast(AuthHandler.INSTANCE);
                         channel.pipeline().addLast(AIMHandle.INSTANCE);
 

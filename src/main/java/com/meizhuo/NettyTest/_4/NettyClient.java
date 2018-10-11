@@ -11,6 +11,8 @@ import com.meizhuo.NettyTest._16.Packet.JoinGroupResponsePacket;
 import com.meizhuo.NettyTest._16.Packet.LogoutResponsePacket;
 import com.meizhuo.NettyTest._16.console.ConsloeCommandManager;
 import com.meizhuo.NettyTest._16.console.LoginConsoleCommand;
+import com.meizhuo.NettyTest._19.HeartBeatTimeHandle;
+import com.meizhuo.NettyTest._19.IMIdleStateHandle;
 import com.meizhuo.NettyTest._7.LoginRequestPacket;
 import com.meizhuo.NettyTest._7.PacketCodeC;
 import com.meizhuo.NettyTest._8.ClientHandle;
@@ -65,16 +67,20 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new IMIdleStateHandle());
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(PacketCodecHandle.INSTANCE);
+                        //发送心跳包
+                        ch.pipeline().addLast(new HeartBeatTimeHandle());
                         ch.pipeline().addLast(LoginResponseHandle.INSTANCE);
                         ch.pipeline().addLast(LogoutResponseHandle.INSTANCE);
-                        ch.pipeline().addLast( MessageResponHandle.INSTANCE);
-                        ch.pipeline().addLast( CreateGroupResponseHandle.INSTANCE);
-                        ch.pipeline().addLast( JoinGroupResponseHandle.INSTANCE);
-                        ch.pipeline().addLast( QuitGroupResponseHandle.INSTANCE);
-                        ch.pipeline().addLast( ListGroupMembersResponseHandle.INSTANCE);
-                        ch.pipeline().addLast( GroupMessageResponseHandle.INSTANCE);
+                        ch.pipeline().addLast(MessageResponHandle.INSTANCE);
+                        ch.pipeline().addLast(CreateGroupResponseHandle.INSTANCE);
+                        ch.pipeline().addLast(JoinGroupResponseHandle.INSTANCE);
+                        ch.pipeline().addLast(QuitGroupResponseHandle.INSTANCE);
+                        ch.pipeline().addLast(ListGroupMembersResponseHandle.INSTANCE);
+                        ch.pipeline().addLast(GroupMessageResponseHandle.INSTANCE);
+
 
                     }
                 });
@@ -144,11 +150,11 @@ public class NettyClient {
 
         Scanner scanner = new Scanner(System.in);
         new Thread(() -> {
-            while (!Thread.interrupted()){
+            while (!Thread.interrupted()) {
                 if (!SessionUtil.hasLogin(channel)) {
                     loginConsoleCommand.exec(scanner, channel);
                 } else {
-                    consloeCommandManager.exec(scanner,channel);
+                    consloeCommandManager.exec(scanner, channel);
                 }
             }
         }).start();

@@ -28,6 +28,8 @@ public class IOService {
                 //阻塞方法获取新的连接
                 try {
                     Socket socket = serverSocket.accept();
+                    //一旦accept方法获取到socket新连接，那么这个方法将不会被阻塞，
+                    // 会执行下面的传线程创建过程
                     new Thread(() -> {
                         try {
                             int len;

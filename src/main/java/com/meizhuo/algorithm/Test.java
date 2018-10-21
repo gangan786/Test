@@ -1,6 +1,7 @@
 package com.meizhuo.algorithm;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 /**
  * @ProjectName: Test
@@ -60,17 +61,74 @@ public class Test {
         throw new IllegalArgumentException("no digital like that");
     }
 
-    @org.junit.Test
     public int[] twoSum3(int[] nums, int target) {
         HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
-            int comp=target-nums[i];
-            if (map.containsKey(comp)){
-                return new int[]{i,map.get(comp)};
+            int comp = target - nums[i];
+            if (map.containsKey(comp)) {
+                return new int[]{i, map.get(comp)};
             }
-            map.put(nums[i],i);
+            map.put(nums[i], i);
         }
         throw new IllegalArgumentException("no digital like that");
+    }
+
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
+
+    @org.junit.Test
+    public void testAddTwoNumbers() {
+        ListNode node1 = new ListNode(5);
+
+
+        ListNode node4 = new ListNode(5);
+
+
+        ListNode listNode = addTwoNumbers(node1, node4);
+        System.out.println(listNode);
+
+    }
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode currentNode = new ListNode(0);
+        ListNode firstNode = new ListNode(-1);
+        int tag = 0;
+        boolean go = false;
+        while (l1 != null || l2 != null || go) {
+            if (l2 == null) {
+                l2 = new ListNode(0);
+            }
+            if (l1 == null) {
+                l1 = new ListNode(0);
+            }
+            int sum = l1.val + l2.val;
+            if (go) {
+                sum++;
+                go = false;
+            }
+            if (sum >= 10) {
+                sum = sum % 10;
+                go = true;
+            }
+            if (tag == 0) {
+                currentNode.val = sum;
+                firstNode = currentNode;
+                tag = 1;
+            } else {
+                currentNode.next = new ListNode(sum);
+                currentNode = currentNode.next;
+            }
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        return firstNode;
+
     }
 
 }

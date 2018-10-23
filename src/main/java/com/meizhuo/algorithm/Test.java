@@ -1,5 +1,6 @@
 package com.meizhuo.algorithm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -129,6 +130,58 @@ public class Test {
         }
         return firstNode;
 
+    }
+
+    @org.junit.Test
+    public void testLengthOfLongestSubstring() {
+        System.out.println(lengthOfLongestSubstring2("abcdwqdfeghi"));
+        //System.out.println(lengthOfLongestSubstring("abcdwqdfeghi"));
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+
+        char[] charArray = s.toCharArray();
+        HashMap<Character, Integer> map = new HashMap<>();
+        int max = 0;
+        int tempCount = 0;
+        for (int i = 0; i < charArray.length; i++) {
+            char temp = charArray[i];
+
+
+            if (map.containsKey(temp)) {
+                tempCount = map.size();
+                if (tempCount > max) {
+                    max = tempCount;
+                }
+
+                i = map.get(temp);
+                map.clear();
+
+            } else {
+                map.put(temp, i);
+                if (max < map.size()) {
+                    max = map.size();
+                }
+            }
+
+        }
+
+        if (tempCount > max) {
+            max = tempCount;
+        }
+
+        return max;
+    }
+
+    public int lengthOfLongestSubstring2(String s) {
+        int n = s.length(), ans = 0;
+        int[] index = new int[128];
+        for (int i = 0, j = 0; j < n; j++) {
+            i = Math.max(i, index[s.charAt(j)]);
+            ans = Math.max(ans, j - i + 1);
+            index[s.charAt(j)] = j + 1;
+        }
+        return ans;
     }
 
 }

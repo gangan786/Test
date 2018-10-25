@@ -141,7 +141,7 @@ public class Test {
     public int lengthOfLongestSubstring(String s) {
 
         char[] charArray = s.toCharArray();
-        HashMap<Character, Integer> map = new HashMap<>();
+        HashMap<Character, Integer> map = new HashMap<>(128);
         int max = 0;
         int tempCount = 0;
         for (int i = 0; i < charArray.length; i++) {
@@ -182,6 +182,105 @@ public class Test {
             index[s.charAt(j)] = j + 1;
         }
         return ans;
+    }
+
+    @org.junit.Test
+    public void testLongestPalindrome() {
+        System.out.println(longestPalindrome("ac"));
+
+    }
+
+    public String longestPalindrome(String s) {
+        String doubleLong = doubleLong(s);
+        String singleLong = singleLong(s);
+        if (s.length() == 1) {
+            return s;
+        }
+        if (doubleLong.length() > singleLong.length()) {
+            return doubleLong;
+        } else {
+            return singleLong;
+        }
+    }
+
+    /**
+     * 此算法适合找出最长回文子串个数是双数
+     *
+     * @param s
+     * @return
+     */
+    public String doubleLong(String s) {
+        char[] charArray = s.toCharArray();
+        String temp = "";
+        String max = "";
+        for (int i = 0; i < charArray.length; i++) {
+            int left = i;
+            int right = i + 1;
+            for (int j = 0; ; j++) {
+                if (left < 0 || right > charArray.length - 1) {
+                    break;
+                } else {
+                    if (charArray[left] == charArray[right]) {
+                        left--;
+                        right++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            temp = s.substring(left + 1, right);
+            if (temp.length() > max.length()) {
+                max = temp;
+            }
+        }
+        if (max.length() == 0 && !max.equals("")) {
+            max = String.valueOf(s.charAt(0));
+        }
+        if (max.length() == 0 && s.length() > 0) {
+            max = String.valueOf(s.charAt(0));
+        }
+        return max;
+    }
+
+
+    /**
+     * 此算法适合找出最长回文子串个数是单数
+     *
+     * @param s
+     * @return
+     */
+    public String singleLong(String s) {
+        char[] charArray = s.toCharArray();
+        String temp = "";
+        String max = "";
+        for (int i = 1; i < charArray.length; i++) {
+            int left = i - 1;
+            int right = i + 1;
+            for (; ; ) {
+                if (left < 0 || right > charArray.length - 1) {
+                    break;
+                } else {
+                    if (charArray[left] == charArray[right]) {
+                        temp = s.substring(left, right + 1);
+                        left--;
+                        right++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            if (temp.length() > max.length()) {
+                max = temp;
+            }
+        }
+        if (max.length() == 0 && !max.equals("")) {
+            max = String.valueOf(s.charAt(0));
+        }
+        if (max.length() == 0 && s.length() > 0) {
+            max = String.valueOf(s.charAt(0));
+        }
+        return max;
     }
 
 }

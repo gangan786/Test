@@ -283,4 +283,52 @@ public class Test {
         return max;
     }
 
+    @org.junit.Test
+    public void testConvert() {
+        convert("A", 1);
+    }
+
+    public String convert(String s, int numRows) {
+        StringBuilder[] queues = new StringBuilder[numRows];
+        for (int i = 0; i < queues.length; i++) {
+            queues[i] = new StringBuilder();
+        }
+
+        StringBuilder convert = new StringBuilder();
+        int point = 0;
+        int queuePoint = 0;
+        boolean turn = false;
+        while (true) {
+
+            if (point == s.length() || queuePoint >= numRows) {
+                break;
+            }
+            if (numRows==1){
+                return s;
+            }
+            StringBuilder queue = queues[queuePoint];
+            queue.append(s.charAt(point));
+            point++;
+
+            if (!turn) {
+                queuePoint++;
+                if (queuePoint == numRows - 1) {
+                    turn = true;
+                }
+            } else {
+                queuePoint--;
+                if (queuePoint == 0) {
+                    turn = false;
+                }
+            }
+        }
+
+        for (StringBuilder queue : queues) {
+            convert.append(queue);
+        }
+
+        return convert.toString();
+
+    }
+
 }

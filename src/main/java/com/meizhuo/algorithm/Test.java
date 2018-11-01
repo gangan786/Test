@@ -303,7 +303,7 @@ public class Test {
             if (point == s.length() || queuePoint >= numRows) {
                 break;
             }
-            if (numRows==1){
+            if (numRows == 1) {
                 return s;
             }
             StringBuilder queue = queues[queuePoint];
@@ -328,6 +328,45 @@ public class Test {
         }
 
         return convert.toString();
+
+    }
+
+    @org.junit.Test
+    public void testReverse() {
+        System.out.println(reverse(1534236469));
+    }
+
+    public int reverse(int x) {
+        Integer myX = x;
+        String num = myX.toString();
+        StringBuilder mix = new StringBuilder();
+
+        try{
+            for (int i = num.length() - 1; i >= 0; i--) {
+                if (num.charAt(i) != '-') {
+                    mix.append(num.charAt(i));
+                }
+
+            }
+            //进行数据修改
+            int end = 0;
+
+            for (int i = 0; i < mix.length(); i++) {
+                if (mix.charAt(i) == '0') {
+                    end++;
+                } else {
+                    break;
+                }
+            }
+            if (x<0){
+                mix.insert(0,'-');
+            }
+
+            return Integer.valueOf(mix.toString());
+        }catch (NumberFormatException e){
+            return 0;
+        }
+
 
     }
 

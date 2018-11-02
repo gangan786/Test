@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * <p>Copyright: Copyright (c) 2018</p>
  */
 @Data
-public class Process {
+public class Process implements Cloneable {
 
     public String processName;
 
@@ -34,4 +34,11 @@ public class Process {
         resourceList.add(resource);
     }
 
+    @Override
+    protected Process clone() throws CloneNotSupportedException {
+        Process cloneProcess = new Process(processName);
+        cloneProcess.resourceList= (ArrayList<Resource>) this.resourceList.clone();
+        cloneProcess.isDone=this.isDone;
+        return cloneProcess;
+    }
 }

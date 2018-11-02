@@ -23,7 +23,7 @@ public class Banker {
     public void main() {
         buildSysResource();
         createProcess();
-        //controller.isSafe();
+        controller.isSafe();
         Resource resourceA = new Resource("A",1);
         Resource resourceB = new Resource("B",0);
         Resource resourceC = new Resource("C",2);

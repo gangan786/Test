@@ -14,7 +14,7 @@ package com.meizhuo.os.Banker;
  * <p>Copyright: Copyright (c) 2018</p>
  */
 
-public class Resource {
+public class Resource implements Cloneable{
 
     public String resourceName;
 
@@ -28,6 +28,7 @@ public class Resource {
 
     /**
      * 当此字段有值时，其他字段无效
+     * 这个字段表明该系统的剩余量
      */
     private int avail;
 
@@ -57,5 +58,10 @@ public class Resource {
     public void addAlloc(int alloc) {
         this.alloc = this.alloc + alloc;
         this.need = this.need - alloc;
+    }
+
+    @Override
+    protected Resource clone() throws CloneNotSupportedException {
+        return (Resource) super.clone();
     }
 }

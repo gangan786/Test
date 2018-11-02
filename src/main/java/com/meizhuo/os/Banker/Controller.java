@@ -1,5 +1,7 @@
 package com.meizhuo.os.Banker;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,15 +87,19 @@ public class Controller {
      * @return
      */
     public ArrayList<Process> isSafe() {
+        int tempDoneProcessCount=processList.size();
         //深拷贝构建副本
         HashMap<String, Integer> tempAvailMap = new HashMap<>();
         for (Map.Entry<String, Resource> entry : AVAIL_RESOURCE_MAP.entrySet()) {
             tempAvailMap.put(entry.getKey(), entry.getValue().getAvail());
         }
 
-        //这里是浅拷贝
-        ArrayList<Process> tempProcessList = new ArrayList<>();
-        tempProcessList.addAll(processList);
+        //利用序列化进行深拷贝
+        ArrayList<Process> tempProcessList=new ArrayList<>();
+        for (Process process : processList) {
+            tempProcessList.add(new Gson().fromJson(new Gson().toJson(process),Process.class));
+        }
+
 
         HashMap<Integer, Integer> scanningRecover = new HashMap<>(12);
         ArrayList<Process> safeProcess = new ArrayList<>();
@@ -193,7 +199,7 @@ public class Controller {
      * @param resources
      * @return
      */
-    public boolean addRequest(String processName, Resource... resources) {
+    public void addRequest(String processName, Resource... resources) {
         //获取对应名称的进程
         Process process = getProcessByName(processName);
         if (process == null) {
@@ -204,7 +210,7 @@ public class Controller {
                 for (Resource resource : process.resourceList) {
                     //维护进程中的资源数量
                     for (Resource requestRes : resources) {
-                        if (resource.resourceName.equals(requestRes.resourceName)){
+                        if (resource.resourceName.equals(requestRes.resourceName)) {
                             resource.addAlloc(requestRes.request);
 
                             Resource ed = AVAIL_RESOURCE_MAP.get(resource.resourceName);
@@ -214,9 +220,10 @@ public class Controller {
                     }
                 }
                 ArrayList<Process> safe = isSafe();
+            }else {
+                throw new RuntimeException("资源请求不合法");
             }
         }
-        return true;
     }
 
     /**
@@ -238,8 +245,8 @@ public class Controller {
         //对资源数量进行检测
         for (Resource resource : process.resourceList) {
             for (Resource rqsResource : rqsResources) {
-                if (rqsResource.resourceName.equals(resource.resourceName)){
-                    if (resource.need<rqsResource.request){
+                if (rqsResource.resourceName.equals(resource.resourceName)) {
+                    if (resource.need < rqsResource.request) {
                         throw new RuntimeException("资源名为：" + rqsResource.resourceName + " 的资源数量要求不合理");
                     }
                 }

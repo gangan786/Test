@@ -80,6 +80,41 @@ public class Controller {
 
     }
 
+    /**
+     * 对系统资源进行资源分配并运行
+     */
+    public void execute() throws InterruptedException {
+        ArrayList<Process> safe = isSafe();
+        if (safe.size() != 0) {
+            //有安全序列并输出资源分配表
+
+            System.out.println("开始执行资源分配，依次被执行的进程为");
+            Thread.sleep(500);
+            for (Process process : safe) {
+                //维护系统可用资源
+                for (Resource resource : process.getResourceList()) {
+                    Resource sysRes = AVAIL_RESOURCE_MAP.get(resource.resourceName);
+                    sysRes.setAvail(resource.alloc + sysRes.getAvail());
+                }
+                System.out.println("进程 " + process.getProcessName() + "开始分配");
+                System.out.println("分配完成");
+                System.out.println("运行...");
+                Thread.sleep(2000);
+                System.out.println("执行完成，回收资源");
+                System.out.println("当前系统可用资源有：");
+                for (Resource resource : process.getResourceList()) {
+                    Resource sysRes = AVAIL_RESOURCE_MAP.get(resource.resourceName);
+                    System.out.println("| "+resource.resourceName+" | "+sysRes.getAvail());
+                }
+                System.out.println("------------------------------------------------");
+            }
+            //清空进程列表
+            processList.clear();
+
+        } else {
+            throw new RuntimeException("安全序列不存在，出现资源等待死锁...");
+        }
+    }
 
     /**
      * 安全性检测算法
@@ -87,7 +122,7 @@ public class Controller {
      * @return
      */
     public ArrayList<Process> isSafe() {
-        int tempDoneProcessCount=processList.size();
+        int tempDoneProcessCount = processList.size();
         //深拷贝构建副本
         HashMap<String, Integer> tempAvailMap = new HashMap<>();
         for (Map.Entry<String, Resource> entry : AVAIL_RESOURCE_MAP.entrySet()) {
@@ -95,9 +130,9 @@ public class Controller {
         }
 
         //利用序列化进行深拷贝
-        ArrayList<Process> tempProcessList=new ArrayList<>();
+        ArrayList<Process> tempProcessList = new ArrayList<>();
         for (Process process : processList) {
-            tempProcessList.add(new Gson().fromJson(new Gson().toJson(process),Process.class));
+            tempProcessList.add(new Gson().fromJson(new Gson().toJson(process), Process.class));
         }
 
 
@@ -105,7 +140,7 @@ public class Controller {
         ArrayList<Process> safeProcess = new ArrayList<>();
 
         int scanningCount = 0;
-        while (doneProcessCount != 0) {
+        while (tempDoneProcessCount != 0) {
 
             for (Process process : tempProcessList) {
                 //这个循环是寻找合适进程进行资源发放
@@ -140,7 +175,7 @@ public class Controller {
                                 //将该进程所有资源回收后标记该进程
                                 process.isDone = true;
                                 //代完成数目减一
-                                --doneProcessCount;
+                                --tempDoneProcessCount;
                             }
                         }
                     }
@@ -148,12 +183,12 @@ public class Controller {
             }
             //记录扫描数
             scanningCount++;
-            scanningRecover.put(scanningCount, doneProcessCount);
+            scanningRecover.put(scanningCount, tempDoneProcessCount);
 
             //取出上一次扫描记录
             if (scanningCount != 1) {
                 Integer lastDoneProcessCount = scanningRecover.get(scanningCount - 1);
-                if (lastDoneProcessCount == doneProcessCount && doneProcessCount != 0) {
+                if (lastDoneProcessCount == tempDoneProcessCount && tempDoneProcessCount != 0) {
                     //说明没有安全序列
                     safeProcess.clear();
                     break;
@@ -220,7 +255,7 @@ public class Controller {
                     }
                 }
                 ArrayList<Process> safe = isSafe();
-            }else {
+            } else {
                 throw new RuntimeException("资源请求不合法");
             }
         }

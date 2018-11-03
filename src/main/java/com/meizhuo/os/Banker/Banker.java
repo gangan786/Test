@@ -29,6 +29,11 @@ public class Banker {
         Resource resourceC = new Resource("C",2);
 
         controller.addRequest("P1", resourceA, resourceB, resourceC);
+        try {
+            controller.execute();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 

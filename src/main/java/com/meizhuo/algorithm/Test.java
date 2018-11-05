@@ -341,7 +341,7 @@ public class Test {
         String num = myX.toString();
         StringBuilder mix = new StringBuilder();
 
-        try{
+        try {
             for (int i = num.length() - 1; i >= 0; i--) {
                 if (num.charAt(i) != '-') {
                     mix.append(num.charAt(i));
@@ -358,16 +358,88 @@ public class Test {
                     break;
                 }
             }
-            if (x<0){
-                mix.insert(0,'-');
+            if (x < 0) {
+                mix.insert(0, '-');
             }
 
             return Integer.valueOf(mix.toString());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    @org.junit.Test
+    public void testMyAtoi() {
+        System.out.println(myAtoi(" -0012a42"));
+    }
+
+    public int myAtoi(String str) {
+        int start = 0;
+        int end = 0;
+        /**
+         * 当字符串中的第一个非空字符序列不是个有效的整数；或字符串为空；或字符串仅包含空白字符时，则不进行转换。
+         * 若函数不能执行有效的转换，返回 0。
+         */
+        if (str.equals("")) {
+            return 0;
+        }
+        if (str.charAt(0)=='.'){
+            return 0;
+        }
+        if (str.length() == 1 && (str.charAt(0) == '-' || str.charAt(0) == '+')) {
+            return 0;
+        }
+        if (str.charAt(0) != ' ' && str.charAt(0) != '+' && str.charAt(0) != '-' && (str.charAt(0) <= '0' && str.charAt(0) >= '9')) {
+            return 0;
+        }
+        if (str.charAt(0) >= 'A' && str.charAt(0) <= 'z') {
+            return 0;
+        }
+
+        //找到start
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+                start = i;
+                if (start != 0 && (str.charAt(start - 1) == '+' || str.charAt(start - 1) == '-')) {
+                    start = start - 1;
+                }
+                break;
+            }
+        }
+        //找到end
+        for (int i = start + 1; i < str.length(); i++) {
+            if (str.charAt(i) == '.' || str.charAt(i) == ' ' || (str.charAt(i) <= '0' && str.charAt(i) >= '9')) {
+                end = i;
+                break;
+            }
+            if (i == str.length() - 1) {
+                end = str.length();
+            }
+        }
+
+        if (start >= end) {
+            end = start + 1;
+        }
+
+        //切割
+        if (str.charAt(start)=='-'||str.charAt(start)=='+'){
+            if (start!=0&&(str.charAt(start-1)=='-'||str.charAt(start-1)=='+')){
+                return 0;
+            }
+        }
+        String substring = str.substring(start, end);
+        Long value=(long)0;
+        try {
+            value= Long.valueOf(substring);
         }catch (NumberFormatException e){
             return 0;
         }
 
+        if (value >= Integer.MAX_VALUE || value <= Integer.MIN_VALUE) {
+            return Integer.MIN_VALUE;
+        }
 
+        return value.intValue();
     }
 
 }

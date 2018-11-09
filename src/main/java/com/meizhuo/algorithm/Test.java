@@ -370,7 +370,7 @@ public class Test {
 
     @org.junit.Test
     public void testMyAtoi() {
-        System.out.println(myAtoi(" -0012a42"));
+        System.out.println(myAtoi(" -11919730356x"));
     }
 
     public int myAtoi(String str) {
@@ -383,7 +383,7 @@ public class Test {
         if (str.equals("")) {
             return 0;
         }
-        if (str.charAt(0)=='.'){
+        if (str.charAt(0) == '.') {
             return 0;
         }
         if (str.length() == 1 && (str.charAt(0) == '-' || str.charAt(0) == '+')) {
@@ -398,17 +398,19 @@ public class Test {
 
         //找到start
         for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+            if (str.charAt(i) == '+' || str.charAt(i) == '-' || (str.charAt(i) >= '0' && str.charAt(i) <= '9')) {
+                //只要是 + - 0~9 中的一个就认为是开始
                 start = i;
-                if (start != 0 && (str.charAt(start - 1) == '+' || str.charAt(start - 1) == '-')) {
-                    start = start - 1;
+                if (start + 1 < str.length() - 1 && str.charAt(start + 1) == ' ') {
+                    //防止出现- 234这种傻逼用例
+                    return 0;
                 }
                 break;
             }
         }
         //找到end
         for (int i = start + 1; i < str.length(); i++) {
-            if (str.charAt(i) == '.' || str.charAt(i) == ' ' || (str.charAt(i) <= '0' && str.charAt(i) >= '9')) {
+            if (str.charAt(i) < '0' || str.charAt(i) > '9') {
                 end = i;
                 break;
             }
@@ -422,21 +424,56 @@ public class Test {
         }
 
         //切割
-        if (str.charAt(start)=='-'||str.charAt(start)=='+'){
-            if (start!=0&&(str.charAt(start-1)=='-'||str.charAt(start-1)=='+')){
+        if (str.charAt(start) == '-' || str.charAt(start) == '+') {
+            if (start != 0 && (str.charAt(start - 1) == '-' || str.charAt(start - 1) == '+')) {
                 return 0;
             }
         }
+        //获取符号位
+        char flag = 'x';
+        if (str.charAt(start) == '-' || str.charAt(start) == '+') {
+            flag = str.charAt(start);
+        }
+
+        //切掉多余的0
+        for (int i = start; i < end; i++) {
+            if (str.charAt(i) == '-' || str.charAt(i) == '+' || str.charAt(i) == '0') {
+                start++;
+            } else {
+                break;
+            }
+        }
+
         String substring = str.substring(start, end);
-        Long value=(long)0;
+        //添加符号位
+        if (flag != 'x') {
+            substring = flag + substring;
+        }
+        Double value = (double) 0;
         try {
-            value= Long.valueOf(substring);
-        }catch (NumberFormatException e){
+            value = Double.valueOf(substring);
+        } catch (NumberFormatException e) {
             return 0;
         }
 
-        if (value >= Integer.MAX_VALUE || value <= Integer.MIN_VALUE) {
-            return Integer.MIN_VALUE;
+        if (value > Integer.MAX_VALUE || value < Integer.MIN_VALUE) {
+            if (str.charAt(0) > '9' || str.charAt(0) < '0') {
+                if (str.charAt(0) == '-' || str.charAt(0) == '+' ){
+                    if (value > 0) {
+                        return Integer.MAX_VALUE;
+
+                    } else {
+                        return Integer.MIN_VALUE;
+                    }
+                }
+                return 0;
+            }
+            if (value > 0) {
+                return Integer.MAX_VALUE;
+
+            } else {
+                return Integer.MIN_VALUE;
+            }
         }
 
         return value.intValue();

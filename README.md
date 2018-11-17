@@ -7,6 +7,7 @@
  这里最初是为了算法比赛而设置的测试包，里面有各种算法的实现思路
 对原有算法不说明，后续添加新的算法后再进行
 + 字符串转整数(leetcode)
++ 回文数判断(leetcode)已经战胜 87.47 % 的 java 提交记录
 
 ## [com.meizhuo.computer_network](https://github.com/gangan786/Test/tree/master/src/main/java/com/meizhuo/computer_network)
  完成计算机网络课程设计：实现一个抓包软件并分析TCP包的内容

@@ -37,11 +37,15 @@ public class Capture {
         }
 
         JpcapCaptor jpcapCaptor = null;
+        //数据报最大长度
         int caplen = 1512;
+        //是否开启混杂模式
         boolean promiscCheck = true;
 
         try {
             //针对网卡进行抓包
+            // 最后一个参数表示最长等待时间
+            //获取jpacapCaptor实例
             jpcapCaptor = JpcapCaptor.openDevice(deviceList[5], caplen, promiscCheck, 50);
         } catch (IOException e) {
             e.printStackTrace();

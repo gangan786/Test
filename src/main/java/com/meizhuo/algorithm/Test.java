@@ -458,7 +458,7 @@ public class Test {
 
         if (value > Integer.MAX_VALUE || value < Integer.MIN_VALUE) {
             if (str.charAt(0) > '9' || str.charAt(0) < '0') {
-                if (str.charAt(0) == '-' || str.charAt(0) == '+' ){
+                if (str.charAt(0) == '-' || str.charAt(0) == '+') {
                     if (value > 0) {
                         return Integer.MAX_VALUE;
 
@@ -477,6 +477,35 @@ public class Test {
         }
 
         return value.intValue();
+    }
+
+    @org.junit.Test
+    public void testIsPalindrome() {
+        isPalindrome(+1221);
+    }
+
+    public boolean isPalindrome(int x) {
+        String num = String.valueOf(x);
+        if (num.length() == 1) {
+            return true;
+        }
+        if (num.charAt(0) == '+') {
+            num = num.replace("+", "");
+        }
+        int left = 0;
+        int right = num.length() - 1;
+
+        while (true) {
+            if (num.charAt(left) == num.charAt(right)) {
+                left++;
+                right--;
+                if (right == left || right + 1 == left) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
     }
 
 }

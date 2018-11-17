@@ -45,9 +45,9 @@ public class Main {
         controller.addPage(p4);
 
         //开始执行FIFO置换算法
-        //controller.pageExchangeToFIFO();
+        controller.pageExchangeToFIFO();
         //开始执行LRU置换算法
-        controller.pageExchangeToLRU();
+        //controller.pageExchangeToLRU();
 
 
     }

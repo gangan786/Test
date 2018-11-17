@@ -104,7 +104,7 @@ public class Controller {
                 System.out.println("当前系统可用资源有：");
                 for (Resource resource : process.getResourceList()) {
                     Resource sysRes = AVAIL_RESOURCE_MAP.get(resource.resourceName);
-                    System.out.println("| "+resource.resourceName+" | "+sysRes.getAvail());
+                    System.out.println("| " + resource.resourceName + " | " + sysRes.getAvail());
                 }
                 System.out.println("------------------------------------------------");
             }
@@ -119,7 +119,8 @@ public class Controller {
     /**
      * 安全性检测算法
      *
-     * @return
+     * @return 如果存在安全序列那么返回安全序列
+     * 否则返回长度为 0 的 ArrayList 实例
      */
     public ArrayList<Process> isSafe() {
         int tempDoneProcessCount = processList.size();

@@ -507,5 +507,28 @@ public class Test {
             }
         }
     }
+    
+    public int maxArea(int[] height) {
+    	
+    	int maxArea=0;
+    	
+    	for (int left = 0; left < height.length-1; left++) {
+			for (int right = left+2; right < height.length; right++) {
+				int area=getArea(left, right, height);
+				if (area>maxArea) {
+					maxArea=area;
+				}
+			}
+		}
+        return maxArea;
+    }
+    
+    public int getArea(int leftIndex,int rightIndex,int[] height) {
+    	int left=height[leftIndex];
+    	int right=height[rightIndex];
+    	int minSide=left>right?right:left;
+    	int count=right-left;
+		return minSide*count;
+	}
 
 }

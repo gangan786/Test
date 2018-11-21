@@ -507,28 +507,37 @@ public class Test {
             }
         }
     }
-    
+
+    @org.junit.Test
+    public void testMaxArea(){
+        maxArea(new int[]{1,8,6,2,5,4,8,3,7,4});
+    }
+
     public int maxArea(int[] height) {
-    	
-    	int maxArea=0;
-    	
-    	for (int left = 0; left < height.length-1; left++) {
-			for (int right = left+2; right < height.length; right++) {
-				int area=getArea(left, right, height);
-				if (area>maxArea) {
-					maxArea=area;
-				}
-			}
-		}
+
+        long startTime=System.currentTimeMillis();
+
+        int maxArea = 0;
+
+        for (int left = 0; left < height.length - 1; left++) {
+            for (int right = left + 1; right < height.length; right++) {
+                int area = getArea(left, right, height);
+                if (area > maxArea) {
+                    maxArea = area;
+                }
+            }
+        }
+        System.out.println("start is " + startTime);
+        System.out.println("Time is: "+(System.currentTimeMillis() - startTime));
         return maxArea;
     }
-    
-    public int getArea(int leftIndex,int rightIndex,int[] height) {
-    	int left=height[leftIndex];
-    	int right=height[rightIndex];
-    	int minSide=left>right?right:left;
-    	int count=right-left;
-		return minSide*count;
-	}
+
+    public int getArea(int leftIndex, int rightIndex, int[] height) {
+        int left = height[leftIndex];
+        int right = height[rightIndex];
+        int minSide = left > right ? right : left;
+        int count = rightIndex - leftIndex;
+        return minSide * count;
+    }
 
 }

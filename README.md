@@ -1,6 +1,4 @@
-﻿</br>
-</br>
-</br>
+
 这个项目记录的我大学伊始至今的所有测试代码和学习内容，下面将介绍每个包对应的内容，因为大学期间加入了袂卓工作室（这是我大学最重要的决定之一），所以使用了meizhuo这个包名
 
 ## [com.meizhuo.algorithm](https://github.com/gangan786/Test/tree/master/src/main/java/com/meizhuo/algorithm)
@@ -8,6 +6,7 @@
 对原有算法不说明，后续添加新的算法后再进行
 + 字符串转整数(leetcode)
 + 回文数判断(leetcode)已经战胜 87.47 % 的 java 提交记录
++ 盛最多水的容器（LeetCode）暴力破解法
 
 ## [com.meizhuo.computer_network](https://github.com/gangan786/Test/tree/master/src/main/java/com/meizhuo/computer_network)
  完成计算机网络课程设计：实现一个抓包软件并分析TCP包的内容

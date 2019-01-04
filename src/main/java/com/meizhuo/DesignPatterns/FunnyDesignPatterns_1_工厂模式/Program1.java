@@ -1,6 +1,4 @@
-package com.meizhuo.DesignPatterns.FunnyDesignPatterns_1;
-
-import lombok.extern.log4j.Log4j;
+package com.meizhuo.DesignPatterns.FunnyDesignPatterns_1_工厂模式;
 
 import java.util.Scanner;
 

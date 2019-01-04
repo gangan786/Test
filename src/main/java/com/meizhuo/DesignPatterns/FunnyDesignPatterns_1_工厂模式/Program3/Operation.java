@@ -1,4 +1,4 @@
-package com.meizhuo.DesignPatterns.FunnyDesignPatterns_1.Program3;
+package com.meizhuo.DesignPatterns.FunnyDesignPatterns_1_工厂模式.Program3;
 
 /**
  * @ProjectName: Test

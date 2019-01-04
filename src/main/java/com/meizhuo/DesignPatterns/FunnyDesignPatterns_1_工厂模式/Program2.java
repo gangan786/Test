@@ -1,4 +1,4 @@
-package com.meizhuo.DesignPatterns.FunnyDesignPatterns_1;
+package com.meizhuo.DesignPatterns.FunnyDesignPatterns_1_工厂模式;
 
 import java.util.Scanner;
 

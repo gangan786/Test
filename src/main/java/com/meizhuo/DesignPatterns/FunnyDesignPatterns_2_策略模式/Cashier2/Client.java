@@ -1,4 +1,4 @@
-package com.meizhuo.DesignPatterns.funnyDesignPatterns_2_策略模式.Cashier2;
+package com.meizhuo.DesignPatterns.FunnyDesignPatterns_2_策略模式.Cashier2;
 
 import java.util.ArrayList;
 import java.util.Scanner;

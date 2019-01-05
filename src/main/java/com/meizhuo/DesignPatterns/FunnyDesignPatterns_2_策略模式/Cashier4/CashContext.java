@@ -1,9 +1,9 @@
-package com.meizhuo.DesignPatterns.funnyDesignPatterns_2_策略模式.Cashier4;
+package com.meizhuo.DesignPatterns.FunnyDesignPatterns_2_策略模式.Cashier4;
 
-import com.meizhuo.DesignPatterns.funnyDesignPatterns_2_策略模式.Cashier3.BaseCashSuper;
-import com.meizhuo.DesignPatterns.funnyDesignPatterns_2_策略模式.Cashier3.CashNormal;
-import com.meizhuo.DesignPatterns.funnyDesignPatterns_2_策略模式.Cashier3.CashRebate;
-import com.meizhuo.DesignPatterns.funnyDesignPatterns_2_策略模式.Cashier3.CashReturn;
+import com.meizhuo.DesignPatterns.FunnyDesignPatterns_2_策略模式.Cashier3.BaseCashSuper;
+import com.meizhuo.DesignPatterns.FunnyDesignPatterns_2_策略模式.Cashier3.CashNormal;
+import com.meizhuo.DesignPatterns.FunnyDesignPatterns_2_策略模式.Cashier3.CashRebate;
+import com.meizhuo.DesignPatterns.FunnyDesignPatterns_2_策略模式.Cashier3.CashReturn;
 
 /**
  * @ProjectName: Test

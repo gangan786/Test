@@ -1,4 +1,4 @@
-package com.meizhuo.DesignPatterns.funnyDesignPatterns_2_策略模式.Cashier1;
+package com.meizhuo.DesignPatterns.FunnyDesignPatterns_2_策略模式.Cashier3;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -21,6 +21,7 @@ public class Client {
     public static void main(String[] args) {
         Double total = new Double(0);
         ArrayList<String> commodityList = new ArrayList<>();
+        ArrayList<String> cashWays = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("请输入单价");
@@ -30,9 +31,16 @@ public class Client {
             }
             System.out.println("请输入数量");
             String num = scanner.nextLine();
-            Double singleCommodity = Double.valueOf(price) * Double.valueOf(num);
-            commodityList.add("单价：" + price + " 数量：" + num + " 总价为："
-                    + singleCommodity);
+            showCashWays(cashWays);
+            String way = scanner.nextLine();
+            double singleCommodity= 0;
+            BaseCashSuper accept = CashFactory.createCashAccept(cashWays.get(Integer.valueOf(way) - 1));
+            singleCommodity = accept.acceptCash(Double.valueOf(price) * Double.valueOf(num));
+
+            commodityList.add("单价：" + price
+                    + " 数量：" + num
+                    +" 方式："+cashWays.get(Integer.valueOf(way)-1)
+                    + " 总价为：" + singleCommodity);
             total = total + singleCommodity;
             showCommodityList(commodityList);
         }
@@ -43,6 +51,17 @@ public class Client {
     private static void showCommodityList(ArrayList<String> commodityList) {
         for (String s : commodityList) {
             System.out.println(s);
+        }
+    }
+
+    private static void showCashWays(ArrayList<String> cashWays) {
+        if (cashWays.isEmpty()){
+            cashWays.add("1.正常收费");
+            cashWays.add("2.满300返100");
+            cashWays.add("3.打八折");
+        }
+        for (String way : cashWays) {
+            System.out.println(way);
         }
     }
 

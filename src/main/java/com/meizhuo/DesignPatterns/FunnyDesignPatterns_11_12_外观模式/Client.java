@@ -14,4 +14,31 @@ package com.meizhuo.DesignPatterns.FunnyDesignPatterns_11_12_外观模式;
  * <p>Copyright: Copyright (c) 2019</p>
  */
 public class Client {
+
+    public static void main(String[] args) {
+        wayA();
+        System.out.println("---------------------------------------------");
+        wayB();
+    }
+
+    private static void wayB() {
+        Fund fund = new Fund();
+        fund.buyFund();
+        fund.sellFund();
+    }
+
+    private static void wayA() {
+        AssetsBehave stockA = new StockA();
+        AssetsBehave stockB = new StockB();
+        AssetsBehave nationalDebt = new NationalDebt();
+
+        stockA.buy();
+        stockB.buy();
+        nationalDebt.buy();
+
+        stockA.sell();
+        stockB.sell();
+        nationalDebt.sell();
+    }
+
 }

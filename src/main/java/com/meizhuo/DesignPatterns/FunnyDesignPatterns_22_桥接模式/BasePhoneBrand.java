@@ -13,7 +13,7 @@ package com.meizhuo.DesignPatterns.FunnyDesignPatterns_22_桥接模式;
  * @Version: 1.0
  * <p>Copyright: Copyright (c) 2019</p>
  */
-public abstract class BasePhoneBrand extends BasePhoneSoft {
+public abstract class BasePhoneBrand  {
 
     protected BasePhoneSoft phoneSoft;
 

@@ -16,7 +16,10 @@
 ## [com.meizhuo.DataStructure](https://github.com/gangan786/Test/tree/master/src/main/java/com/meizhuo/DataStructure)
 这里是一些数据结构课程的实验代码
 ## [com.meizhuo.DesignPatterns](https://github.com/gangan786/Test/tree/master/src/main/java/com/meizhuo/DesignPatterns)
-这是大二看的设计模式，不过是参考Android的设计模式，因为后来的一些原因这本书没有读完，所以中断了
++ 这是大二看的设计模式，不过是参考Android的设计模式，因为后来的一些原因这本书没有读完，所以中断了
++ FunnyDesignPatterns：大话设计模式中的例子，有助于初学者理解面想对象思想
++ ConcurrencyDP：并发编程事件(设计模式篇)中的例子
+
 ## [com.meizhuo.JVM](https://github.com/gangan786/Test/tree/master/src/main/java/com/meizhuo/JVM)
 对于jvm的学习我是通过周志明的《深入理解java虚拟机》，这里面有少量的验证代码
 ## [com.meizhuo.NettyTest](https://github.com/gangan786/Test/tree/master/src/main/java/com/meizhuo/NettyTest)

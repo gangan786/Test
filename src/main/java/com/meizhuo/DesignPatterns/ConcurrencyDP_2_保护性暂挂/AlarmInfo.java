@@ -19,12 +19,22 @@ public class AlarmInfo {
 
     private String message;
 
+    private int type;
+
     public final String getTime() {
         return time;
     }
 
     public final void setTime(String time) {
         this.time = time;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public final String getMessage() {

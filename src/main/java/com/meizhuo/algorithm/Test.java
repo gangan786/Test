@@ -509,13 +509,13 @@ public class Test {
     }
 
     @org.junit.Test
-    public void testMaxArea(){
-        maxArea(new int[]{1,8,6,2,5,4,8,3,7,4});
+    public void testMaxArea() {
+        maxArea(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7, 4});
     }
 
     public int maxArea(int[] height) {
 
-        long startTime=System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
 
         int maxArea = 0;
 
@@ -528,7 +528,7 @@ public class Test {
             }
         }
         System.out.println("start is " + startTime);
-        System.out.println("Time is: "+(System.currentTimeMillis() - startTime));
+        System.out.println("Time is: " + (System.currentTimeMillis() - startTime));
         return maxArea;
     }
 
@@ -538,6 +538,13 @@ public class Test {
         int minSide = left > right ? right : left;
         int count = rightIndex - leftIndex;
         return minSide * count;
+    }
+
+    @org.junit.Test
+    public void test() {
+        int i = 2;
+        i=i*32;
+        System.out.println(i);
     }
 
 }

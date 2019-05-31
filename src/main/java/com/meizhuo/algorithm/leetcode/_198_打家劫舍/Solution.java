@@ -64,7 +64,7 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        int[] nums = {1,5, 0, 0, 7, 5, 3, 8, 9, 8, 0, 7};
+        int[] nums = {1, 5, 0, 0, 7, 5, 3, 8, 9, 8, 0, 7};
         System.out.println(new Solution().rob2(nums));
     }
 

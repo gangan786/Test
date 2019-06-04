@@ -29,6 +29,13 @@
 + 优先级进程调度算法
 + 银行家算法
 + 页面调度算法(FIFO,LRU)
+## [com.meizhuo.encryption](https://github.com/gangan786/Test/tree/master/src/main/java/com/meizhuo/encryption)
+这里是对java.security包的学习，主要是对各种加密算法的学习使用以及架构分析
+相关内容包括
++ BASE64与单向加密算法MD5&SHA&MAC
++ 对称加密DES&AES
++ PBE算法
++ 非对称加密算法RSA
 
 
 

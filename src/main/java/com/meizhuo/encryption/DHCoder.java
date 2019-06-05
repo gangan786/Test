@@ -130,8 +130,9 @@ public class DHCoder extends Coder {
      */
     private static SecretKey getSecretKey(String publicKeyStr, String privateKeyStr) throws Exception {
         //初始化公钥
-        byte[] pubKeyBytes = decryptBASE64(publicKeyStr);
         KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
+
+        byte[] pubKeyBytes = decryptBASE64(publicKeyStr);
         X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(pubKeyBytes);
         PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
 
@@ -188,6 +189,9 @@ public class DHCoder extends Coder {
         Map<String, Object> baoKeyMap = DHCoder.initKey(alienPublicKey);
         String baoPublicKey = DHCoder.getPublicKey(baoKeyMap);
         String baoPrivateKey = DHCoder.getPrivateKey(baoKeyMap);
+
+        System.out.println("乙方公钥为：" + baoPublicKey);
+        System.out.println("乙方私钥为：" + baoPrivateKey);
 
         String input = "喜欢秋风渐起的凉意,喜欢你喜欢的一切";
         System.out.println("原文为：" + input);

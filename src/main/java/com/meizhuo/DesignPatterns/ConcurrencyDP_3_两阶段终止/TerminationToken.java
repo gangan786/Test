@@ -56,7 +56,7 @@ public class TerminationToken {
     /**
      * 通知TerminationToken实例：共享该实例的所有可停止线程中的一个线程停止了，
      * 以便其停止其他未被停止的线程
-     * @param thread
+     * @param thread 调用此方法的线程已执行完terminate方法
      */
     protected void notifyThreadTermination(Terminatable thread) {
         WeakReference<Terminatable> weakThread;
@@ -64,6 +64,10 @@ public class TerminationToken {
         while (null != (weakThread = coordinatedThreads.poll())) {
             otherThread = weakThread.get();
             if (null != otherThread && otherThread != thread) {
+                /*
+                    调用除参数thread外其他线程的terminate方法
+                    实现任务的终止执行
+                 */
                 otherThread.terminate();
             }
         }

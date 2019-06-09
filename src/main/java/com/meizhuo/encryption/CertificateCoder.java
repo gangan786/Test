@@ -3,8 +3,10 @@ package com.meizhuo.encryption;
 import org.junit.Test;
 
 import javax.crypto.Cipher;
+import javax.net.ssl.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.HttpURLConnection;
 import java.security.*;
 import java.security.cert.*;
 import java.security.cert.Certificate;
@@ -24,6 +26,8 @@ public class CertificateCoder extends Coder {
     public static final String KEY_STORE = "JKS";
 
     public static final String X509 = "X.509";
+    public static final String SUNX509="SunX509";
+    public static final String SSL="SSL";
 
     /**
      * 由 keyStore 获得私钥
@@ -298,6 +302,37 @@ public class CertificateCoder extends Coder {
     public static boolean verifyCertificate(String keyStorePath, String alias,
                                             String password) {
         return verifyCertificate(new Date(), keyStorePath, alias, password);
+    }
+
+    /**
+     * 为HTTPSURLConnection配置SSLSocketFactory
+     * @param connection
+     * @param password
+     * @param keyStorePath
+     * @param trustKeyStorePath
+     */
+    public static void configSSLSocketFactory(HttpsURLConnection connection,
+                                              String password, String keyStorePath,
+                                              String trustKeyStorePath) throws Exception {
+        connection.setSSLSocketFactory(getSSLSocketFactory(password,keyStorePath,trustKeyStorePath));
+    }
+
+    private static SSLSocketFactory getSSLSocketFactory(String password, String keyStorePath,
+                                                        String trustKeyStorePath) throws Exception {
+        //初始化密钥库
+        KeyManagerFactory factory = KeyManagerFactory.getInstance(X509);
+        KeyStore keyStore = getKeyStore(keyStorePath, password);
+        factory.init(keyStore, password.toCharArray());
+
+        //初始化信任库
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(X509);
+        KeyStore trustKeyStore = getKeyStore(trustKeyStorePath, password);
+        trustManagerFactory.init(trustKeyStore);
+
+        //初始化SSL上下文
+        SSLContext sslContext = SSLContext.getInstance(SSL);
+        sslContext.init(factory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+        return sslContext.getSocketFactory();
     }
 
     @Test

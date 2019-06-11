@@ -2,7 +2,7 @@ package com.meizhuo.DesignPatterns.FunnyDesignPatterns_22_桥接模式;
 
 /**
  * @ProjectName: Test
- * @Package: com.meizhuo.DesignPatterns.FunnyDesignPatterns_22_桥接模式
+ * @Package: com.meizhuo.DesignPatterns.FunnyDesignPatterns_22_�Ž�ģʽ
  * @ClassName: ${TYPE_NAME}
  * @Description:
  * @Author: Gangan

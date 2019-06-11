@@ -102,6 +102,7 @@ public class DESCoder extends Coder {
         String initKey = DESCoder.initKey();
 
         byte[] encrypt = DESCoder.encrypt(inputContent.getBytes(), initKey);
+        System.out.println("原始数据为：" + inputContent);
         System.out.println("加密的数据为：" + new String(encrypt));
         byte[] decrypt = DESCoder.decrypt(encrypt, initKey);
         System.out.printf("解密后的数据为："+new String(decrypt));

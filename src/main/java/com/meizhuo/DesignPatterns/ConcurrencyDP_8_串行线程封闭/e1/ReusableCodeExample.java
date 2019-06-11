@@ -41,6 +41,9 @@ public class ReusableCodeExample {
             super(new ArrayBlockingQueue<>(100),
                     new TaskProcessor<Task, String>() {
                         @Override
+                        /**
+                         * 定义要串行化的操作
+                         */
                         public String doProcess(Task task) throws Exception {
                             System.out.println("[" + task.id + "]:" + task.message);
                             return task.message + " accepted.";
@@ -49,6 +52,9 @@ public class ReusableCodeExample {
         }
 
         @Override
+        /**
+         * 将参数封装成指定的对象进行处理
+         */
         protected Task makeTask(Object... params) {
             String message = (String) params[0];
             int id = (Integer) params[1];

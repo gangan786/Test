@@ -2,7 +2,7 @@ package com.meizhuo.DesignPatterns.FunnyDesignPatterns_8_工厂方法模式;
 
 /**
  * @ProjectName: Test
- * @Package: com.meizhuo.DesignPatterns.FunnyDesignPatterns_8_工厂方法模式
+ * @Package: com.meizhuo.DesignPatterns.FunnyDesignPatterns_8_??????????
  * @ClassName: ${TYPE_NAME}
  * @Description:
  * @Author: Gangan
@@ -17,13 +17,13 @@ public class Client {
 
     public static void main(String[] args) {
         IFactory factory = new UndergraduateFactory();
-        LeiFeng stuA = factory.createLeiFeng("张三");
+        LeiFeng stuA = factory.createLeiFeng("????");
         stuA.buySomething();
         stuA.sweepSomething();
         stuA.washSomething();
 
         factory = new VolunteerFactory();
-        LeiFeng stuB = factory.createLeiFeng("李四");
+        LeiFeng stuB = factory.createLeiFeng("????");
         stuB.buySomething();
         stuB.sweepSomething();
         stuB.washSomething();

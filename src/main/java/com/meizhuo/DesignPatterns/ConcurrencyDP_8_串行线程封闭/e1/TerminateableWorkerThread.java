@@ -7,16 +7,16 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
+
 /**
  * @param <T> Serializer向WorkerThread所提交的任务对应的类型
  * @param <V> service方法的返回值类型
  * @Classname TerminateableWorkerThread
  * @Description 串行任务的线程执行者
  * @Date 2019/6/9 20:34
- * @Created by Gangan
+ * @Author by Gangan
  */
 public class TerminateableWorkerThread<T, V> extends AbstractTerminatableThread {
-
     private final BlockingQueue<Runnable> workQueue;
 
     /**
@@ -24,10 +24,26 @@ public class TerminateableWorkerThread<T, V> extends AbstractTerminatableThread 
      */
     private final TaskProcessor<T, V> taskProcessor;
 
-    public TerminateableWorkerThread(BlockingQueue<Runnable> workQueue,
-                                     TaskProcessor<T, V> taskProcessor) {
+    public TerminateableWorkerThread(BlockingQueue<Runnable> workQueue, TaskProcessor<T, V> taskProcessor) {
         this.taskProcessor = taskProcessor;
-        this.workQueue = workQueue;
+        this.workQueue     = workQueue;
+    }
+
+    /**
+     * 将列中的任务执行
+     * @throws Exception
+     */
+    @Override
+    protected void doRun() throws Exception {
+        Runnable take = workQueue.take();
+
+        try {
+            take.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            terminationToken.reservations.decrementAndGet();
+        }
     }
 
     public Future<V> submit(T task) throws InterruptedException {
@@ -47,25 +63,11 @@ public class TerminateableWorkerThread<T, V> extends AbstractTerminatableThread 
         将任务放进队列中等待被执行
          */
         FutureTask<V> futureTask = new FutureTask<>(callable);
+
         workQueue.put(futureTask);
         terminationToken.reservations.incrementAndGet();
+
         return futureTask;
     }
-
-    /**
-     * 将列中的任务执行
-     * @throws Exception
-     */
-    @Override
-    protected void doRun() throws Exception {
-        Runnable take = workQueue.take();
-        try {
-            take.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            terminationToken.reservations.decrementAndGet();
-        }
-
-    }
 }
+

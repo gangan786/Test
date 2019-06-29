@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/src/main/java/com/meizhuo/DesignPatterns/ConcurrencyDP_8_串行线程封闭/e1/TerminateableWorkerThread.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/meizhuo/DesignPatterns/FunnyDesignPatterns_22_桥接模式/BasePhoneBrand.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/meizhuo/DesignPatterns/FunnyDesignPatterns_22_桥接模式/BasePhoneSoft.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/meizhuo/DesignPatterns/FunnyDesignPatterns_8_工厂方法模式/Client.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/meizhuo/PointToOffer/No3.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

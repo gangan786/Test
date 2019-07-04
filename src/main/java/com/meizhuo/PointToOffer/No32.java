@@ -17,8 +17,8 @@ public class No32 {
         ArrayList<BinaryTreeNode> nodeQueue = new ArrayList<>();
         nodeQueue.add(rootNode);
         while (!nodeQueue.isEmpty()) {
-            BinaryTreeNode curNode = nodeQueue.get(0);
-            System.out.println(curNode);
+            BinaryTreeNode curNode = nodeQueue.remove(0);
+            System.out.print(curNode+" ");
             if (curNode.leftNode != null) {
                 nodeQueue.add(nodeQueue.size()-1,curNode.leftNode);
             }
@@ -30,6 +30,34 @@ public class No32 {
 
     public void test() {
         printFromTopToBottom(null);
+    }
+
+    public void print(BinaryTreeNode rootNode) {
+        if (rootNode == null) {
+            throw new NullPointerException();
+        }
+        int countPrint=1;
+        int nextLinePrint=0;
+        ArrayList<BinaryTreeNode> nodeQueue = new ArrayList<>();
+        nodeQueue.add(rootNode);
+        while (!nodeQueue.isEmpty()) {
+            BinaryTreeNode curNode = nodeQueue.remove(0);
+            System.out.print(curNode+" ");
+            if (curNode.leftNode != null) {
+                nodeQueue.add(nodeQueue.size()-1,curNode.leftNode);
+                nextLinePrint++;
+            }
+            if (curNode.rightNode != null) {
+                nodeQueue.add(nodeQueue.size() - 1, curNode.rightNode);
+                nextLinePrint++;
+            }
+            countPrint--;
+            if (countPrint == 0) {
+                System.out.print("\n");
+                countPrint=nextLinePrint;
+                nextLinePrint=0;
+            }
+        }
     }
 
 }

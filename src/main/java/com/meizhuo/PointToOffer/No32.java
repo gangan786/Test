@@ -25,12 +25,12 @@ public class No32 {
         BinaryTreeNode node14 = new BinaryTreeNode(14, null, null);
         BinaryTreeNode node15 = new BinaryTreeNode(15, null, null);
 
-        BinaryTreeNode node4 = new BinaryTreeNode(4, node8,node9);
+        BinaryTreeNode node4 = new BinaryTreeNode(4, node8, node9);
         BinaryTreeNode node5 = new BinaryTreeNode(5, node10, node11);
         BinaryTreeNode node6 = new BinaryTreeNode(6, node12, node13);
         BinaryTreeNode node7 = new BinaryTreeNode(7, node14, node15);
 
-        BinaryTreeNode node2 = new BinaryTreeNode(2,node4,node5);
+        BinaryTreeNode node2 = new BinaryTreeNode(2, node4, node5);
         BinaryTreeNode node3 = new BinaryTreeNode(3, node6, node7);
 
         BinaryTreeNode root = new BinaryTreeNode(1, node2, node3);
@@ -49,7 +49,7 @@ public class No32 {
         nodeQueue.add(rootNode);
         while (!nodeQueue.isEmpty()) {
             BinaryTreeNode curNode = nodeQueue.remove(0);
-            System.out.print(curNode.value+" ");
+            System.out.print(curNode.value + " ");
             if (curNode.leftNode != null) {
                 nodeQueue.add(curNode.leftNode);
             }
@@ -64,26 +64,26 @@ public class No32 {
         if (rootNode == null) {
             throw new NullPointerException();
         }
-        int countPrint=1;
-        int nextLinePrint=0;
+        int countPrint = 1;
+        int nextLinePrint = 0;
         ArrayList<BinaryTreeNode> nodeQueue = new ArrayList<>();
         nodeQueue.add(rootNode);
         while (!nodeQueue.isEmpty()) {
             BinaryTreeNode curNode = nodeQueue.remove(0);
-            System.out.print(curNode.value+" ");
+            System.out.print(curNode.value + " ");
             if (curNode.leftNode != null) {
                 nodeQueue.add(curNode.leftNode);
                 nextLinePrint++;
             }
             if (curNode.rightNode != null) {
-                nodeQueue.add( curNode.rightNode);
+                nodeQueue.add(curNode.rightNode);
                 nextLinePrint++;
             }
             countPrint--;
             if (countPrint == 0) {
                 System.out.print("\n");
-                countPrint=nextLinePrint;
-                nextLinePrint=0;
+                countPrint = nextLinePrint;
+                nextLinePrint = 0;
             }
         }
     }
@@ -93,7 +93,7 @@ public class No32 {
             throw new NullPointerException();
         }
 
-        int tire=1;
+        int tire = 1;
         Stack<BinaryTreeNode> oddStack = new Stack<>();
         Stack<BinaryTreeNode> evenStack = new Stack<>();
         oddStack.push(rootNode);
@@ -101,7 +101,7 @@ public class No32 {
             if (tire == 1) {
                 //这里是单层
                 BinaryTreeNode oddNode = oddStack.pop();
-                System.out.print(oddNode.value+" ");
+                System.out.print(oddNode.value + " ");
                 if (oddNode.leftNode != null) {
                     evenStack.push(oddNode.leftNode);
                 }
@@ -109,13 +109,13 @@ public class No32 {
                     evenStack.push(oddNode.rightNode);
                 }
                 if (oddStack.isEmpty()) {
-                    tire=0;
+                    tire = 0;
                     System.out.print("\n");
                 }
             } else if (tire == 0) {
                 //这里是双层
                 BinaryTreeNode evenNode = evenStack.pop();
-                System.out.print(evenNode.value+" ");
+                System.out.print(evenNode.value + " ");
                 if (evenNode.rightNode != null) {
                     oddStack.push(evenNode.rightNode);
                 }
@@ -123,7 +123,7 @@ public class No32 {
                     oddStack.push(evenNode.leftNode);
                 }
                 if (evenStack.isEmpty()) {
-                    tire=1;
+                    tire = 1;
                     System.out.print("\n");
                 }
             }

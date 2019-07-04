@@ -27,6 +27,13 @@ public class BinaryTreeNode {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return "BinaryTreeNode{" +
+                "value=" + value +
+                '}';
+    }
+
     public void setValue(int value) {
         this.value = value;
     }

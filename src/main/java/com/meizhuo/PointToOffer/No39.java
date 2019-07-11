@@ -126,7 +126,7 @@ public class No39 {
      * @param end
      * @return 返回中间边界的下标
      */
-    private int partition(int[] data, int length, int start, int end) {
+    public int partition(int[] data, int length, int start, int end) {
         if (data == null || length <= 0 || start < 0 || end >= length) {
             throw new IllegalArgumentException();
         }

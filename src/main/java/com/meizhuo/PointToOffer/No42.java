@@ -41,4 +41,10 @@ public class No42 {
         return maxSum;
     }
 
+    @Test
+    public void testStringHashCode() {
+        System.out.println("abc".hashCode());
+        System.out.println("bca".hashCode());
+    }
+
 }

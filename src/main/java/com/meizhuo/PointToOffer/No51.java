@@ -12,7 +12,7 @@ public class No51 {
 
     @Test
     public void test() {
-        int[] target = {7, 5, 6, 4};
+        int[] target = {7, 5, 6, 4, 3, 8, 9, 1};
         System.out.println(inversePairs(target));
     }
 
@@ -26,6 +26,14 @@ public class No51 {
         return inversePairs(target, copy, 0, target.length - 1);
     }
 
+    /**
+     *
+     * @param data data是上一个copy 未排序
+     * @param copy copy是下一个data 已排序
+     * @param start
+     * @param end
+     * @return
+     */
     private int inversePairs(int[] data, int[] copy, int start, int end) {
         if (start == end) {
             copy[start] = data[start];

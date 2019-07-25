@@ -42,6 +42,9 @@ public class No58 {
     }
 
     public String leftRotateString(String target, int n) {
+        if (target == null || target.length() < n || n < 0) {
+            return "";
+        }
         char[] targetArray = target.toCharArray();
         int firstStart=0;
         int firstEnd=n-1;

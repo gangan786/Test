@@ -1,22 +1,26 @@
-package com.meizhuo.PointToOffer;
-
-import org.junit.Test;
+package com.meizhuo.temp;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Scanner;
 
 /**
- * @Classname No45
- * @Description 把数组排成最小的数
- * @Date 2019/7/15 21:24
+ * @Classname No13
+ * @Description TODO
+ * @Date 2019/8/20 19:29
  * @Created by Gangan
  */
-public class No45 {
+public class No13 {
 
-    @Test
-    public void test() {
-        int[] target = {3, 32, 321};
-        int[] minNumber = getMinNumber(target);
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String s = scanner.nextLine();
+        String[] target = s.split(",");
+        int[] ints = new int[target.length];
+        for (int i = 0; i < target.length; i++) {
+            ints[i]=Integer.valueOf(target[i]);
+        }
+        int[] minNumber = getMinNumber(ints);
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < minNumber.length; i++) {
             builder.append(minNumber[i]);
@@ -24,11 +28,9 @@ public class No45 {
         System.out.println(builder);
     }
 
-    public int[] getMinNumber(int[] target) {
 
-        if (target == null) {
-            throw new NullPointerException();
-        }
+    public static int[] getMinNumber(int[] target) {
+
 
         String[] str = new String[target.length];
 

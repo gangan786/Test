@@ -12,7 +12,7 @@ public class No38 {
 
     @Test
     public void test() {
-        permutation("abcd");
+        permutation("aazz");
     }
 
     public void permutation(String target) {

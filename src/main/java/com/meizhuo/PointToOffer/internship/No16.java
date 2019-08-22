@@ -32,6 +32,7 @@ public class No16 {
                 if (values[i] > j) {
                     maxValues[i][j] = maxValues[i - 1][j];
                 } else {
+                    //背包问题是在这里减去重量加上价值
                     int yes = maxValues[i - 1][j - values[i]] + values[i];
                     int no = maxValues[i - 1][j];
                     maxValues[i][j] = Math.max(yes, no);

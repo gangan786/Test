@@ -8,7 +8,7 @@ import org.junit.Test;
  * @Date 2019/6/22 17:40
  * @Created by Gangan
  */
-public class No5 {
+public class  No5 {
 
     public char[] replaceBlank(char[] target) {
         char point = ' ';

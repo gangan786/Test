@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * @Classname No14
- * @Description 背包最大价值
+ * @Description 背包最大价值：https://www.bilibili.com/video/av36136952?from=search&seid=13603181966048787290
  * @Date 2019/8/20 19:45
  * @Created by Gangan
  */

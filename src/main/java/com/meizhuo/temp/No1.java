@@ -1,9 +1,6 @@
 package com.meizhuo.temp;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @Classname No1

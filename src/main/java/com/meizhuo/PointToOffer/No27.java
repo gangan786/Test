@@ -23,13 +23,18 @@ public class No27 {
         mirrorRecursively(node1);
     }
 
+    /**
+     * 先前序遍历这棵树的每个节点，如果遍历到的节点有子节点，就交换他的两个子节点
+     * 当交换完所有非叶子节点的左右节点之后，就反转了一颗二叉树
+     * @param head
+     */
     public void mirrorRecursively(BinaryTreeNode head) {
         if (head.leftNode == null && head.rightNode == null) {
             return;
         }
-        BinaryTreeNode temp=head.leftNode;
-        head.leftNode=head.rightNode;
-        head.rightNode=temp;
+        BinaryTreeNode temp = head.leftNode;
+        head.leftNode = head.rightNode;
+        head.rightNode = temp;
         if (head.rightNode != null) {
             mirrorRecursively(head.rightNode);
         }
@@ -38,7 +43,7 @@ public class No27 {
         }
     }
 
-    class BinaryTreeNode{
+    class BinaryTreeNode {
         public int value;
         public BinaryTreeNode leftNode;
         public BinaryTreeNode rightNode;

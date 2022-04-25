@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="jpcap">
     <CLASSES>
-      <root url="jar://F:/Chrome下载/【批量下载】jpcap等/jpcap.jar!/" />
+      <root url="jar://$PROJECT_DIR$/source/jpcap.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

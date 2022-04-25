@@ -1,7 +1,9 @@
 package com.meizhuo.encryption;
 
 
-import org.testng.annotations.Test;
+
+
+import org.junit.Test;
 
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;

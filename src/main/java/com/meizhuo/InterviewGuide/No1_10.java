@@ -10,6 +10,8 @@ import java.util.Scanner;
  * https://www.nowcoder.com/practice/5fe02eb175974e18b9a546812a17428e?tpId=101&difficulty=&judgeStatus=&tags=&title=&sourceUrl=&gioEnter=menu
  * @Date 2022/4/25
  * @Created by Gangan
+ * 20 290516
+ * -232004 338028 -421441 637677 753499 595611 784268 -106853 -360216 701981 43869 -965250 335771 507555 429251 -945890 -923495 422049 260582 -566803
  */
 public class No1_10 {
 

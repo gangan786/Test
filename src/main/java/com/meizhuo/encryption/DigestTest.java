@@ -1,10 +1,8 @@
 package com.meizhuo.encryption;
 
 
-
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.Mac;
@@ -57,7 +55,8 @@ public class DigestTest {
      * @throws Exception
      */
     public static byte[] decryptBASE64(String key) throws Exception {
-        return (new BASE64Decoder()).decodeBuffer(key);
+        Base64 base64 = new Base64();
+        return base64.decode(key);
     }
 
     /**
@@ -67,7 +66,8 @@ public class DigestTest {
      * @throws Exception
      */
     public static String encryptBASE64(byte[] key) throws Exception {
-        return (new BASE64Encoder()).encodeBuffer(key);
+        Base64 base64 = new Base64();
+        return base64.encodeToString(key);
     }
 
 
